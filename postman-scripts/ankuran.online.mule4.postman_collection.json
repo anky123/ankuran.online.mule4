@@ -1,0 +1,553 @@
+{
+	"info": {
+		"_postman_id": "e847ba16-a355-4cf5-bc31-b1d0034a532f",
+		"name": "ankuran.online.mule4",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "project01 | Creating first Mule Application",
+			"item": [
+				{
+					"name": "performance-test-api | getStatus",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/getEmployee/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"getEmployee",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "performance-test-api | createEmployee",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"firstName\": \"Ankur\",\n\t\"middleName\": \"Jyoti\",\n\t\"lastName\": \"Bhuyan\",\n\t\"email\": \"webmail.ajb@ankuran.online\",\n\t\"gender\": \"Male\",\n\t\"phone\": 9590951212,\n\t\"currentAddress\": {\n\t\t\"isCurrentAddress\": true,\n\t\t\"street\": \"Elcetronic City\",\n\t\t\"city\": \"Bangalore\",\t\t\t\n\t\t\"district\": \"Bangalore\",\n\t\t\"pin\": 56860,\n\t\t\"country\": \"India\"\t\t\n\t},\n\t\"permanentAddress\": {\n\t\t\"isCurrentAddress\": false,\n\t\t\"street\": \"3 Rue Renee Aspe\",\n\t\t\"city\": \"Toulouse\",\n\t\t\"district\": \"Occitanie\",\n\t\t\"pin\": 31000,\n\t\t\"country\": \"France\"\n\t}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/createEmployee",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"createEmployee"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "project02 | Proxy API",
+			"item": [
+				{
+					"name": "Backend 01 | CreateEmployee | application/json",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YW5rdXI6Ymh1eWFu",
+								"type": "text"
+							},
+							{
+								"key": "client_id",
+								"value": "test",
+								"type": "text"
+							},
+							{
+								"key": "client_secret",
+								"value": "test",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"firstName\": \"Ankur\",\n\t\"middleName\": \"Jyoti\",\n\t\"lastName\": \"Bhuyan\",\n\t\"email\": \"webmail.ajb@ankuran.online\",\n\t\"gender\": \"Male\",\n\t\"phone\": 9590951212,\n\t\"currentAddress\": {\n\t\t\"isCurrentAddress\": true,\n\t\t\"street\": \"Elcetronic City\",\n\t\t\"city\": \"Bangalore\",\t\t\t\n\t\t\"district\": \"Bangalore\",\n\t\t\"pin\": 56860,\n\t\t\"country\": \"India\"\t\t\n\t},\n\t\"permanentAddress\": {\n\t\t\"isCurrentAddress\": false,\n\t\t\"street\": \"3 Rue Renee Aspe\",\n\t\t\"city\": \"Toulouse\",\n\t\t\"district\": \"Occitanie\",\n\t\t\"pin\": 31000,\n\t\t\"country\": \"France\"\n\t}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8083/api/createEmployee",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"api",
+								"createEmployee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Backend 01 | GetEmployee | application/json",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "client_id",
+								"value": "test",
+								"type": "text"
+							},
+							{
+								"key": "client_secret",
+								"value": "test",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8083/api/getEmployee?employeeId=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"api",
+								"getEmployee"
+							],
+							"query": [
+								{
+									"key": "employeeId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Backend 01 | DeleteEmployee | application/json",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "client_id",
+								"type": "text",
+								"value": "test"
+							},
+							{
+								"key": "client_secret",
+								"type": "text",
+								"value": "test"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8083/api/deleteEmployee?employeeId=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"api",
+								"deleteEmployee"
+							],
+							"query": [
+								{
+									"key": "employeeId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Backend 02 | mulesoftBlog | application/xml",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "client_id",
+								"type": "text",
+								"value": "test"
+							},
+							{
+								"key": "client_secret",
+								"type": "text",
+								"value": "test"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<root>\n    <creatorFirstName>Ankur</creatorFirstName>\n    <creatorLastName>Bhuyan</creatorLastName>\n    <email>webmail.ajb@ankuran.online</email>\n    <gender>Male</gender>\n    <organization>ankuran</organization>\n    <phone>9590951212</phone>\n</root>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8084/api/mulesoftBlog",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"api",
+								"mulesoftBlog"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Backend 02 | springBlog | application/x-www-form-urlencoded",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "client_id",
+								"type": "text",
+								"value": "test"
+							},
+							{
+								"key": "client_secret",
+								"type": "text",
+								"value": "test"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "creatorFirstName",
+									"value": "Ankur",
+									"type": "text"
+								},
+								{
+									"key": "creatorLastName",
+									"value": "Bhuyan",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": " webmail.ajb@ankuran.online,",
+									"type": "text"
+								},
+								{
+									"key": "gender",
+									"value": " Male,",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": " 9590951212,",
+									"type": "text"
+								},
+								{
+									"key": "organization",
+									"value": " ankuran",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8084/api/springBlog",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"api",
+								"springBlog"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "proxy-api | callBackend | Backend 01 | createEmployee | application/json",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YW5rdXI6Ymh1eWFu",
+								"type": "text"
+							},
+							{
+								"key": "client_id",
+								"value": "test",
+								"type": "text"
+							},
+							{
+								"key": "client_secret",
+								"value": "test",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"host\": \"backend01\",\n    \"method\": \"POST\",\n    \"endpoint\": \"/api/createEmployee\",\n    \"forwarder-content-type\": \"application/json\",\n    \"body\": {\n        \"firstName\": \"Ankur\",\n        \"middleName\": \"Jyoti\",\n        \"lastName\": \"Bhuyan\",\n        \"email\": \"webmail.ajb@ankuran.online\",\n        \"gender\": \"Male\",\n        \"phone\": 9590951212,\n        \"currentAddress\": {\n            \"isCurrentAddress\": true,\n            \"street\": \"Elcetronic City\",\n            \"city\": \"Bangalore\",\n            \"district\": \"Bangalore\",\n            \"pin\": 56860,\n            \"country\": \"India\"\n        },\n        \"permanentAddress\": {\n            \"isCurrentAddress\": false,\n            \"street\": \"3 Rue Renee Aspe\",\n            \"city\": \"Toulouse\",\n            \"district\": \"Occitanie\",\n            \"pin\": 31000,\n            \"country\": \"France\"\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8082/api/callBackend",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"callBackend"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "proxy-api | callBackend | Backend 01 | getEmployee | application/json",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Basic YW5rdXI6Ymh1eWFu"
+							},
+							{
+								"key": "client_id",
+								"type": "text",
+								"value": "test"
+							},
+							{
+								"key": "client_secret",
+								"type": "text",
+								"value": "test"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"host\": \"backend01\",\n    \"method\": \"GET\",\n    \"endpoint\": \"/api/getEmployee?employeeId=1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8082/api/callBackend",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"callBackend"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "proxy-api | callBackend | Backend 01 | DeleteEmployee | application/json",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Basic YW5rdXI6Ymh1eWFu"
+							},
+							{
+								"key": "client_id",
+								"type": "text",
+								"value": "test"
+							},
+							{
+								"key": "client_secret",
+								"type": "text",
+								"value": "test"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"host\": \"backend01\",\n    \"method\": \"DELETE\",\n    \"endpoint\": \"/api/deleteEmployee?employeeId=1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8082/api/callBackend",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"callBackend"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "proxy-api | callBackend | Backend 02 | mulesoftBlog | application/xml",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Basic YW5rdXI6Ymh1eWFu"
+							},
+							{
+								"key": "client_id",
+								"type": "text",
+								"value": "test"
+							},
+							{
+								"key": "client_secret",
+								"type": "text",
+								"value": "test"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<root>\n    <host>backend02</host>\n    <method>POST</method>\n    <endpoint>/api/mulesoftBlog</endpoint>\n    <forwarder-content-type>application/xml</forwarder-content-type>\n    <body>\n        <creatorFirstName>Ankur</creatorFirstName>\n        <creatorLastName>Bhuyan</creatorLastName>\n        <email>webmail.ajb@ankuran.online</email>\n        <gender>Male</gender>\n        <organization>ankuran</organization>\n        <phone>9590951212</phone>\n    </body>\n</root>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8082/api/callBackend",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"callBackend"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "proxy-api | callBackend | Backend 02 | springBlog | application/x-www-form-urlencoded",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "client_id",
+								"value": "test",
+								"type": "text"
+							},
+							{
+								"key": "client_secret",
+								"value": "test",
+								"type": "text"
+							},
+							{
+								"key": "host",
+								"value": "backend02",
+								"type": "text"
+							},
+							{
+								"key": "method",
+								"value": "POST",
+								"type": "text"
+							},
+							{
+								"key": "endpoint",
+								"value": "/api/springBlog",
+								"type": "text"
+							},
+							{
+								"key": "forwarder-content-type",
+								"value": "multipart/form-data",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"host\": \"backend02\",\n    \"method\": \"PUT\",\n    \"endpoint\": \"/api/springBlog\",\n    \"forwarder-content-type\": \"application/x-www-form-urlencoded\",\n    \"body\": {\n        \"creatorFirstName\": \"Ankur\",\n        \"creatorLastName\": \"Bhuyan\",\n        \"email\": \"webmail.ajb@ankuran.online\",\n        \"gender\": \"Male\",\n        \"phone\": 9590951212,\n        \"organization\": \"ankuran\"\n    }\n}",
+							"options": {
+								"formdata": {},
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8082/api/callBackend",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"callBackend"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
