@@ -1,0 +1,35 @@
+<xs:schema xmlns:tns="http://ankuran.online/"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0"
+	targetNamespace="http://ankuran.online/">
+	<xs:element name="requestedPersonInfo"
+		type="tns:requestedPersonInfo" />
+	<xs:element name="requestedPersonInfoResponse"
+		type="tns:requestedPersonInfoResponse" />
+	<xs:complexType name="requestedPersonInfo">
+		<xs:sequence>
+			<xs:element name="arg0" type="tns:person" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="person">
+		<xs:sequence>
+			<xs:element name="firstName" type="xs:string" minOccurs="0" />
+			<xs:element name="middleName" type="xs:string" minOccurs="0" />
+			<xs:element name="lastName" type="xs:string" minOccurs="0" />
+			<xs:element name="email" type="xs:string" minOccurs="0" />
+			<xs:element name="gender" type="xs:string" minOccurs="0" />
+			<xs:element name="phone" type="xs:long" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="requestedPersonInfoResponse">
+		<xs:sequence>
+			<xs:element name="return" type="tns:response"
+				minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="response">
+		<xs:sequence>
+			<xs:element name="id" type="xs:string" />
+			<xs:element name="message" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>
