@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
+	xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties"
+	xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+	xmlns:anypoint-mq="http://www.mulesoft.org/schema/mule/anypoint-mq" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd 
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd 
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd 
+http://www.mulesoft.org/schema/mule/anypoint-mq http://www.mulesoft.org/schema/mule/anypoint-mq/current/mule-anypoint-mq.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
+	
+	<apikit:config name="test-logging-framework-config" api="logging-and-error-framework-test-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+	
+	<import doc:name="Import" doc:id="3c160743-11a6-4eec-a6bd-83e5a319c4ed" file="logging-framework.xml" />
+	<import doc:name="Import" doc:id="d6494d3c-1301-4e00-93a0-b68e4757ebef" file="error-handling-framework.xml" />
+	
+	<configuration doc:name="Configuration" doc:id="db0ae61b-7413-4f73-a13f-cb28f0904870" defaultErrorHandler-ref="common-error-handler" />
+	
+	<configuration-properties doc:name="Configuration properties" doc:id="49e33aef-9709-4271-a747-8c3d13a7cfea" file="properties/${mule.env}-properties.yaml" />
+	
+	<http:listener-config name="test-logging-framework-httpListenerConfig" doc:name="HTTP Listener config" doc:id="73b5c326-572b-4ce2-b742-0d0fd1ce28d7" >
+    	<http:listener-connection host="${http.api.host}" port="${http.api.port}" />
+  	</http:listener-config>
+  
+  	<http:listener-config name="httpListener-test" doc:name="HTTP Listener config" doc:id="ab15361e-3bf2-4627-9fbd-9074e23a27e4" >
+    	<http:listener-connection host="${http.test.host}" port="${http.test.port}" />
+  	</http:listener-config>
+  
+  	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="0225fa82-83fe-46fc-8a9c-df1408f49ca0" >
+    	<http:request-connection host="${http.request.host}" port="${http.test.port}" />
+  	</http:request-config>
+  	
+</mule>

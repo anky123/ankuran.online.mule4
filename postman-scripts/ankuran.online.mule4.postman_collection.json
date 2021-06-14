@@ -26,12 +26,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8081/api/getEmployee/1",
+							"raw": "http://localhost:8082/api/getEmployee/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8081",
+							"port": "8082",
 							"path": [
 								"api",
 								"getEmployee",
@@ -45,7 +45,13 @@
 					"name": "performance-test-api | createEmployee",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"firstName\": \"Ankur\",\n\t\"middleName\": \"Jyoti\",\n\t\"lastName\": \"Bhuyan\",\n\t\"email\": \"webmail.ajb@ankuran.online\",\n\t\"gender\": \"Male\",\n\t\"phone\": 9590951212,\n\t\"currentAddress\": {\n\t\t\"isCurrentAddress\": true,\n\t\t\"street\": \"Elcetronic City\",\n\t\t\"city\": \"Bangalore\",\t\t\t\n\t\t\"district\": \"Bangalore\",\n\t\t\"pin\": 56860,\n\t\t\"country\": \"India\"\t\t\n\t},\n\t\"permanentAddress\": {\n\t\t\"isCurrentAddress\": false,\n\t\t\"street\": \"3 Rue Renee Aspe\",\n\t\t\"city\": \"Toulouse\",\n\t\t\"district\": \"Occitanie\",\n\t\t\"pin\": 31000,\n\t\t\"country\": \"France\"\n\t}\n}",
@@ -56,12 +62,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8081/api/createEmployee",
+							"raw": "http://localhost:8083/api/createEmployee",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8081",
+							"port": "8083",
 							"path": [
 								"api",
 								"createEmployee"
@@ -70,8 +76,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "project02 | Proxy API",
@@ -99,7 +104,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"firstName\": \"Ankur\",\n\t\"middleName\": \"Jyoti\",\n\t\"lastName\": \"Bhuyan\",\n\t\"email\": \"webmail.ajb@ankuran.online\",\n\t\"gender\": \"Male\",\n\t\"phone\": 9590951212,\n\t\"currentAddress\": {\n\t\t\"isCurrentAddress\": true,\n\t\t\"street\": \"Elcetronic City\",\n\t\t\"city\": \"Bangalore\",\t\t\t\n\t\t\"district\": \"Bangalore\",\n\t\t\"pin\": 56860,\n\t\t\"country\": \"India\"\t\t\n\t},\n\t\"permanentAddress\": {\n\t\t\"isCurrentAddress\": false,\n\t\t\"street\": \"3 Rue Renee Aspe\",\n\t\t\"city\": \"Toulouse\",\n\t\t\"district\": \"Occitanie\",\n\t\t\"pin\": 31000,\n\t\t\"country\": \"France\"\n\t}\n}",
+							"raw": "{\n\t\"firstName\": \"Ankur\",\n\t\"middleName\": \"Jyoti\",\n\t\"lastName\": \"Bhuyan\",\n\t\"email\": \"webmail.ajb@ankuran.online\",\n\t\"gender\": \"Male\",\n\t\"phone\": 9590951212,\n\t\"currentAddress\": {\n\t\t\"isCurrentAddress\": true,\n\t\t\"street\": \"Elcetronic City\",\n\t\t\"city\": \"Bangalore\",\t\t\t\n\t\t\"district\": \"Bangalore\",\n\t\t\"pin\": 56860,\n\t\t\"country\": \"India\"\t\t\n\t},\n\t\"permanentAddress\": {\n\t\t\"isCurrentAddress\": false,\n\t\t\"street\": \"3 Rue Renee Aspe\",\n\t\t\"city\": \"Toulouse\",\n\t\t\"district\": \"Occitanie\",\n\t\t\"pin\": 31000,\n\t\t\"country\": \"France\"\n\t},\n    \"phones\": null\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -284,10 +289,7 @@
 									"value": " ankuran",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "http://localhost:8084/api/springBlog",
@@ -522,9 +524,8 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"host\": \"backend02\",\n    \"method\": \"PUT\",\n    \"endpoint\": \"/api/springBlog\",\n    \"forwarder-content-type\": \"application/x-www-form-urlencoded\",\n    \"body\": {\n        \"creatorFirstName\": \"Ankur\",\n        \"creatorLastName\": \"Bhuyan\",\n        \"email\": \"webmail.ajb@ankuran.online\",\n        \"gender\": \"Male\",\n        \"phone\": 9590951212,\n        \"organization\": \"ankuran\"\n    }\n}",
+							"raw": "{\n    \"host\": \"backend02\",\n    \"method\": \"PUT\",\n    \"endpoint\": \"/api/springBlog\",\n    \"forwarder-content-type\": \"application/json\",\n    \"body\": {\n        \"creatorFirstName\": \"Ankur\",\n        \"creatorLastName\": \"Bhuyan\",\n        \"email\": \"webmail.ajb@ankuran.online\",\n        \"gender\": \"Male\",\n        \"phone\": 9590951212,\n        \"organization\": \"ankuran\"\n    }\n}",
 							"options": {
-								"formdata": {},
 								"raw": {
 									"language": "json"
 								}
@@ -545,9 +546,122 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
+		},
+		{
+			"name": "project04 | Logging and Error Handling Framework",
+			"item": [
+				{
+					"name": "valid scenario test | http",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8091/api/process-valid-http?firstName=Ankur&lastName=Bhuyan&email=ab@ankuran.online&country=India&created=2021-08-21T21:00:00",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"process-valid-http"
+							],
+							"query": [
+								{
+									"key": "firstName",
+									"value": "Ankur"
+								},
+								{
+									"key": "lastName",
+									"value": "Bhuyan"
+								},
+								{
+									"key": "email",
+									"value": "ab@ankuran.online"
+								},
+								{
+									"key": "country",
+									"value": "India"
+								},
+								{
+									"key": "created",
+									"value": "2021-08-21T21:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "invalid scenario test | http",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8091/api/process-invalid-http?firstName=Ankur&lastName=Bhuyan&email=ab@ankuran.online&country=India&created=2021-08-21T21:00:00",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"process-invalid-http"
+							],
+							"query": [
+								{
+									"key": "firstName",
+									"value": "Ankur"
+								},
+								{
+									"key": "lastName",
+									"value": "Bhuyan"
+								},
+								{
+									"key": "email",
+									"value": "ab@ankuran.online"
+								},
+								{
+									"key": "country",
+									"value": "India"
+								},
+								{
+									"key": "created",
+									"value": "2021-08-21T21:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "invalid scenario test | apikit",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8091/api/process-invalid-http?firstName=Ankur",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"process-invalid-http"
+							],
+							"query": [
+								{
+									"key": "firstName",
+									"value": "Ankur"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }
