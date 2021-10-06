@@ -662,6 +662,152 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "project05 | Circuit Breaker with Anypoint MQ",
+			"item": [
+				{
+					"name": "API Test | Spring boot",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8091/api/getEmployees",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"getEmployees"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "project06 | Dynamic JSON Schema Validation",
+			"item": [
+				{
+					"name": "userRegister | Happy Flow",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Ankur\",\r\n    \"lastName\": \"Bhuyan\",\r\n    \"age\": 30,\r\n    \"email\": \"ankur.bhuyan@gmail.com\",\r\n    \"street\": \"AB Street\",\r\n    \"district\": \"A\",\r\n    \"state\": \"KA\",\r\n    \"country\": \"IN\",\r\n    \"postalCode\": \"560068\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8091/api/userRegister",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"userRegister"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "userRegister | Error Flow | Invalid Content",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Ankur\",\r\n    \"age\": 30,\r\n    \"email\": \"ankur.bhuyan@gmail.com\",\r\n    \"street\": \"AB Street\",\r\n    \"district\": \"A\",\r\n    \"state\": \"KA\",\r\n    \"country\": \"IN\",\r\n    \"postalCode\": 560068\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8091/api/userRegister",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"userRegister"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "userRegister | Error Flow | Empty country",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Ankur\",\r\n    \"lastName\": \"Bhuyan\",\r\n    \"age\": 30,\r\n    \"email\": \"ankur.bhuyan@gmail.com\",\r\n    \"street\": \"AB Street\",\r\n    \"district\": \"A\",\r\n    \"state\": \"KA\",\r\n    \"postalCode\": \"560068\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8091/api/userRegister",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"userRegister"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "userRegister | Error Flow | Invalid country value",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Ankur\",\r\n    \"lastName\": \"Bhuyan\",\r\n    \"age\": 30,\r\n    \"email\": \"ankur.bhuyan@gmail.com\",\r\n    \"street\": \"AB Street\",\r\n    \"district\": \"A\",\r\n    \"state\": \"KA\",\r\n    \"country\": \"UK\",\r\n    \"postalCode\": \"560068\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8091/api/userRegister",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"userRegister"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
