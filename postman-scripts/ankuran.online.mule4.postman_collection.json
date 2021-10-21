@@ -808,6 +808,65 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "project07 | retry-reprocess-wih-mq",
+			"item": [
+				{
+					"name": "Spring boot API",
+					"item": [
+						{
+							"name": "Get Employees",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/getEmployees",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"getEmployees"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post Employee",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"firstName\": \"Ankur\",\r\n    \"lastName\": \"Bhuyan\",\r\n    \"email\": \"ankur.bhuyan@ankuran.online\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/postEmployee",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"postEmployee"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
 		}
 	]
 }

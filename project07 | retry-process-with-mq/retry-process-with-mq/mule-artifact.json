@@ -1,0 +1,18 @@
+{
+  "configs": [
+    "process-message.xml",
+    "re-process-message.xml"
+  ],
+  "secureProperties": [		
+	"anypoint.platform.client_id",
+	"anypoint.platform.client_secret"
+  ],
+  "redeploymentEnabled": true,
+  "name": "retry-process-with-mq",
+  "minMuleVersion": "4.3.0",
+  "requiredProduct": "MULE_EE",
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  }
+}
