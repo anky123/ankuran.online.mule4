@@ -867,6 +867,40 @@
 					]
 				}
 			]
+		},
+		{
+			"name": "project08 | Duplicate check",
+			"item": [
+				{
+					"name": "user_register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"firstName\": \"Ankur\",\r\n    \"lastName\": \"Bhuyan\",\r\n    \"email\": \"ankur.bhuyan@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/user_register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"user_register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
