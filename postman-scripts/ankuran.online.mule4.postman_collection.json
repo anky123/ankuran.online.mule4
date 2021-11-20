@@ -901,6 +901,583 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "project09 | Mule4.4",
+			"item": [
+				{
+					"name": "MDC Logging ",
+					"item": [
+						{
+							"name": "settingAndRemovingVariables | Set and Remove logging variables",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"firstName\": \"Ankur\",\r\n    \"lastName\": \"Bhuyan\",\r\n    \"email\": \"webmail.ajb@ankuran.online\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/mdc/settingAndRemovingVariables",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"mdc",
+										"settingAndRemovingVariables"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "settingAndCleaningVariables | Set and Clear logging variables",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"firstName\": \"Ankur\",\r\n    \"lastName\": \"Bhuyan\",\r\n    \"email\": \"ankur.bhuyan@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/mdc/settingAndCleaningVariables",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"mdc",
+										"settingAndCleaningVariables"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "loggingWithCorrelationId | Logging with CorrelationID",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"firstName\": \"Ankur\",\r\n    \"lastName\": \"Bhuyan\",\r\n    \"email\": \"ankur.bhuyan@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/mdc/loggingWithCorrelationId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"mdc",
+										"loggingWithCorrelationId"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Dataweave",
+					"item": [
+						{
+							"name": "dw::Core",
+							"item": [
+								{
+									"name": "indexOf | dataweave_2.4",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8081/api/dataweave/indexOf",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8081",
+											"path": [
+												"api",
+												"dataweave",
+												"indexOf"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "lastIndexOf | dataweave_2.4",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8081/api/dataweave/lastIndexOf",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8081",
+											"path": [
+												"api",
+												"dataweave",
+												"lastIndexOf"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "onNull| dataweave_2.4",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8081/api/dataweave/onNull",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8081",
+											"path": [
+												"api",
+												"dataweave",
+												"onNull"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "then| dataweave_2.4",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8081/api/dataweave/then",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8081",
+											"path": [
+												"api",
+												"dataweave",
+												"then"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "dw::core::Strings",
+							"item": [
+								{
+									"name": "collapse| dataweave_2.4",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8081/api/dataweave/collapse",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8081",
+											"path": [
+												"api",
+												"dataweave",
+												"collapse"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "countCharactersBy| dataweave_2.4",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8081/api/dataweave/countCharactersBy",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8081",
+											"path": [
+												"api",
+												"dataweave",
+												"countCharactersBy"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "countMatches| dataweave_2.4",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8081/api/dataweave/countMatches",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8081",
+											"path": [
+												"api",
+												"dataweave",
+												"countMatches"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "everyCharacter| dataweave_2.4",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8081/api/dataweave/everyCharacter",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8081",
+											"path": [
+												"api",
+												"dataweave",
+												"everyCharacter"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "first| dataweave_2.4",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8081/api/dataweave/first",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8081",
+											"path": [
+												"api",
+												"dataweave",
+												"first"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "last| dataweave_2.4",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8081/api/dataweave/last",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8081",
+											"path": [
+												"api",
+												"dataweave",
+												"last"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "hammingDistance| dataweave_2.4",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8081/api/dataweave/hammingDistance",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8081",
+											"path": [
+												"api",
+												"dataweave",
+												"hammingDistance"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "levenshteinDistance| dataweave_2.4",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8081/api/dataweave/levenshteinDistance",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8081",
+											"path": [
+												"api",
+												"dataweave",
+												"levenshteinDistance"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "lines| dataweave_2.4",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8081/api/dataweave/lines",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8081",
+											"path": [
+												"api",
+												"dataweave",
+												"lines"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "mapString| dataweave_2.4",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8081/api/dataweave/mapString",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8081",
+											"path": [
+												"api",
+												"dataweave",
+												"mapString"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "remove| dataweave_2.4",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8081/api/dataweave/remove",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8081",
+											"path": [
+												"api",
+												"dataweave",
+												"remove"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "reverse| dataweave_2.4",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8081/api/dataweave/reverse",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8081",
+											"path": [
+												"api",
+												"dataweave",
+												"reverse"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "replaceall| dataweave_2.4",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8081/api/dataweave/replaceall",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8081",
+											"path": [
+												"api",
+												"dataweave",
+												"replaceall"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "someCharacter| dataweave_2.4",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8081/api/dataweave/someCharacter",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8081",
+											"path": [
+												"api",
+												"dataweave",
+												"someCharacter"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "substring| dataweave_2.4",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8081/api/dataweave/substring",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8081",
+											"path": [
+												"api",
+												"dataweave",
+												"substring"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "substringBy| dataweave_2.4",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8081/api/dataweave/substringBy",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8081",
+											"path": [
+												"api",
+												"dataweave",
+												"substringBy"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "substringEvery| dataweave_2.4",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8081/api/dataweave/substringEvery",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8081",
+											"path": [
+												"api",
+												"dataweave",
+												"substringEvery"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "words| dataweave_2.4",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8081/api/dataweave/words",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8081",
+											"path": [
+												"api",
+												"dataweave",
+												"words"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
 		}
 	]
 }
