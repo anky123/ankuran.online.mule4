@@ -1,0 +1,10 @@
+#HTTP API Properties
+http:
+  private:
+    port: "8081"
+    host: "0.0.0.0"
+    path: "/api/*"
+#reconenct frequency
+    reconnect:
+      frequency: "10000"
+      attempts: "2" 

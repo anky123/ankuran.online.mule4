@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:tracing="http://www.mulesoft.org/schema/mule/tracing"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:json="http://www.mulesoft.org/schema/mule/json"
+	xmlns:os="http://www.mulesoft.org/schema/mule/os" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" 
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" 
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd 
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd
+http://www.mulesoft.org/schema/mule/tracing http://www.mulesoft.org/schema/mule/tracing/current/mule-tracing.xsd">
+    
+   
+	<flow name="mule-4.4.0-main">
+        <http:listener config-ref="mule-4.4.0-httpListenerConfig" path="${http.private.path}">
+            <reconnect frequency="${http.private.reconnect.frequency}" count="${http.private.reconnect.attempts}"/>
+			<http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body><![CDATA[#[payload]]]></http:body>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:router config-ref="mule-4.4.0-config" />
+        <error-handler ref="common-global-exception-flow" />
+    </flow>
+   
+    <flow name="post:\mdc\settingAndRemovingVariables:mule-4.4.0-config" >
+		<flow-ref doc:name="set-logging-variables-subFlow" doc:id="35306937-574b-4afe-a284-00a944c5e50c" name="set-logging-variables-subFlow"/>
+		<logger level="INFO" doc:name="Log payload after setting logging variables" doc:id="d11f02b7-ba2d-419b-8de8-d048e95f0857" message="After SETTING logging variables : #[payload]"/>
+		<ee:transform doc:name="Prepare response" doc:id="0bc76f4b-0b9c-4482-b780-424a38a8087d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message" : "Request processed successfully for " ++ Mule::lookup('prepare-endpoint', attributes.relativePath)
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Log payload after payload change" doc:id="17cb3d51-1d37-4232-9a31-fc90c729fb98" message="After payload change : #[payload]"/>
+		<flow-ref doc:name="remove-logging-variables-subFlow" doc:id="8ce4256d-6b44-4a9a-b056-8373b0109d5c" name="remove-logging-variables-subFlow"/>
+		<logger level="INFO" doc:name="Log payload after removing logging variables" doc:id="97a9dc2c-1343-4059-8ddf-406836e097d5" message="After REMOVING logging variables : #[payload]"/>    
+    </flow>
+    
+    <flow name="post:\mdc\settingAndCleaningVariables:mule-4.4.0-config">
+		<flow-ref doc:name="set-logging-variables-subFlow" doc:id="1267b35b-d943-42fb-938b-2ea6f12b3f21" name="set-logging-variables-subFlow"/>
+		<logger level="INFO" doc:name="Log payload after setting logging variables" doc:id="38e4cac5-24fa-4137-9719-718998c5bf81" message="After SETTING logging variables : #[payload]"/>
+		<ee:transform doc:name="Prepare response" doc:id="99cd63a7-5116-4311-bbee-ddb9e53d74a5" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message" : "Request processed successfully for " ++ Mule::lookup('prepare-endpoint', attributes.relativePath)
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Log payload after payload change" doc:id="4327b77b-d43e-4d08-b301-19de1d6667f3" message="After payload change : #[payload]"/>
+		<flow-ref doc:name="clear-all-logging-variables-subFlow" doc:id="4e33e061-f6ff-4b94-a12a-9b53db19ef60" name="clear-all-logging-variables-subFlow"/>
+		<logger level="INFO" doc:name="Log payload after removing logging variables" doc:id="1bba525b-71be-44c0-b000-15325dd025cc" message="After CLEANING logging variables : #[payload]"/>
+    </flow>
+    
+    <flow name="post:\mdc\loggingWithCorrelationId:mule-4.4.0-config">
+		<tracing:with-correlation-id doc:name="With CorrelationID" doc:id="8b9d6c3c-250b-457e-9c2d-a3dd498c3b85" correlationId="#[correlationId ++ '_' ++ Mule::lookup('prepare-endpoint', attributes.relativePath)]">
+			<logger level="INFO" doc:name="Log payload inside tracing:with-correlation-id" doc:id="086ce669-b0fb-4a7e-87b3-3ec40dedcc0c" message="Logging inside tracing:with-correlation-id : #[payload]"/>
+			<ee:transform doc:name="Prepare response" doc:id="6877d60c-305c-42c4-bdf3-d9d06d452c23" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message" : "Request processed successfully for " ++ Mule::lookup('prepare-endpoint', attributes.relativePath)
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<logger level="INFO" doc:name="Log payload inside tracing:with-correlation-id" doc:id="6edf7d8d-6acd-4d8a-82d8-24db416a6445" message="Logging inside tracing:with-correlation-id : #[payload]"/>
+		</tracing:with-correlation-id>
+	 </flow>
+
+	<flow name="post:\dataweave\indexOf:mule-4.4.0-config">
+		<ee:transform doc:name="Prepare response" doc:id="2331bb5d-ccbb-4dd7-88a3-15810f5c45d7" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"indexOf Output" : {
+		present_in_array: ["a","n","k","u","r"] indexOf "k",
+  		notPresent_in_array: ["b","h","u","y","a","n"] indexOf "x",
+  		present_in_string: "ankur" indexOf "k",
+  		notPresent_in_string: "bhuyan" indexOf "x",
+  		presentMoreThanOnce_in_string: "ankur_ankur_" indexOf "_"
+	},
+	"message" : "Request processed successfully for " ++ Mule::lookup('prepare-endpoint', attributes.relativePath) ++ " function"
+}]]></ee:set-payload>
+				</ee:message>
+		</ee:transform>
+	 </flow>
+	 
+	 <flow name="post:\dataweave\lastIndexOf:mule-4.4.0-config">
+		<ee:transform doc:name="Prepare response" doc:id="8b2ab45c-0182-45cd-bc81-60d6abad7536" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"lastIndexOf Output" : {
+		present_in_array: ["a","n","k","u","r"] lastIndexOf "k",
+  		notPresent_in_array: ["b","h","u","y","a","n"] lastIndexOf "x",
+  		present_in_string: "ankur" lastIndexOf "k",
+  		notPresent_in_string: "bhuyan" lastIndexOf "x",
+  		presentMoreThanOnce_in_string: "ankur_ankur_" lastIndexOf "_"
+	},
+	"message" : "Request processed successfully for " ++ Mule::lookup('prepare-endpoint', attributes.relativePath) ++ " function"
+}]]></ee:set-payload>
+				</ee:message>
+		</ee:transform>
+	 </flow>
+	 
+	 <flow name="post:\dataweave\onNull:mule-4.4.0-config">
+		<ee:transform doc:name="Prepare response" doc:id="d6f7e96b-d201-4fd1-8b5b-75c2a1f9e314" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+fun onNullTest(aString) = null
+---
+{
+	"onNull Output" : null then (onNullTest("aString")) onNull "Null Value",
+	"message" : "Request processed successfully for " ++ Mule::lookup('prepare-endpoint', attributes.relativePath) ++ " function"
+}]]></ee:set-payload>
+				</ee:message>
+		</ee:transform>
+	 </flow>
+	 
+	 <flow name="post:\dataweave\then:mule-4.4.0-config">
+		<ee:transform doc:name="Prepare response" doc:id="26d35f17-9254-45ac-8038-6a53f77e8ac6" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+var inputData = [
+    {
+        "fName" : "Ankur",
+        "lName" : "Bhuyan"
+    },
+    {
+        "fName" : "Alex",
+        "lName" : "Moby"
+    }
+]
+---
+{
+	"then Output" : inputData map ((item, index) -> item)
+    then {
+        Name: upper($[0].fName ++ " " ++ $[0].lName),
+        Name: upper($[1].fName ++ " " ++ $[1].lName)
+    },
+	"message" : "Request processed successfully for " ++ Mule::lookup('prepare-endpoint', attributes.relativePath) ++ " function"
+}]]></ee:set-payload>
+				</ee:message>
+		</ee:transform>
+	 </flow>
+	 
+	 <flow name="post:\dataweave\collapse:mule-4.4.0-config">
+		<ee:transform doc:name="Prepare response" doc:id="d0063322-480f-49de-a177-0c40d819c85e" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+import collapse from dw::core::Strings
+output application/json
+---
+{
+	"collapse Output" : {
+		"collapseWithoutSpace": collapse("ankur"),
+   		"collapseWithSpace": collapse("a n kur"),
+   		"collapseNull": collapse(null)
+	},
+	"message" : "Request processed successfully for " ++ Mule::lookup('prepare-endpoint', attributes.relativePath) ++ " function"
+}]]></ee:set-payload>
+				</ee:message>
+		</ee:transform>
+	 </flow>
+	 
+	 <flow name="post:\dataweave\countCharactersBy:mule-4.4.0-config">
+		<ee:transform doc:name="Prepare response" doc:id="955f48cd-4cb1-421c-806f-784f87ab66a5" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+import countCharactersBy,isNumeric from dw::core::Strings
+output application/json
+---
+{
+	"countCharactersBy_12345" : "12345" countCharactersBy isNumeric($),
+	"message" : "Request processed successfully for " ++ Mule::lookup('prepare-endpoint', attributes.relativePath) ++ " function"
+}]]></ee:set-payload>
+				</ee:message>
+		</ee:transform>
+	 </flow>
+	 
+	  <flow name="post:\dataweave\countMatches:mule-4.4.0-config">
+		<ee:transform doc:name="Prepare response" doc:id="6c82f507-7dad-437d-8902-ce7fdfa46386" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+import countMatches from dw::core::Strings
+output application/json
+---
+{
+	"countMatches Output" : {
+		"countMatches_for_no_word" : "ankur jyoti bhuyan" countMatches "xyz",
+    	"countMatches_for_single_word" : "ankur jyoti bhuyan" countMatches "ankur",
+    	"countMatches_for_multiple_word" : "ankur jyoti bhuyan" countMatches "an"
+    },
+	"message" : "Request processed successfully for " ++ Mule::lookup('prepare-endpoint', attributes.relativePath) ++ " function"
+}]]></ee:set-payload>
+				</ee:message>
+		</ee:transform>
+	 </flow>
+	 
+	 <flow name="post:\dataweave\everyCharacter:mule-4.4.0-config">
+		<ee:transform doc:name="Prepare response" doc:id="ae962644-3747-49b9-9d00-2233b791ad87" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+import everyCharacter, isNumeric from dw::core::Strings
+output application/json
+---
+{
+	"everyCharacter Output" : {
+		"everyCharacter_is_numeric" : "123456" everyCharacter isNumeric($),
+    	"everyCharacter_is_not_numeric" : "123xyz456" everyCharacter isNumeric($),
+    	"everyCharacter_is_equal_to_3" : "333" everyCharacter $ == "3"
+    },
+	"message" : "Request processed successfully for " ++ Mule::lookup('prepare-endpoint', attributes.relativePath) ++ " function"
+}]]></ee:set-payload>
+				</ee:message>
+		</ee:transform>
+	 </flow>
+	 
+	 <flow name="post:\dataweave\first:mule-4.4.0-config">
+		<ee:transform doc:name="Prepare response" doc:id="500f6222-fcb7-46f6-803f-3a1809ba5ec5" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+import first from dw::core::Strings
+output application/json
+---
+{
+	"first Output" : {
+		"first_5_character" : "Ankur Jyoti Bhuyan" first 5,
+    	"first_11_character" : "Ankur Jyoti Bhuyan" first 11
+    },
+	"message" : "Request processed successfully for " ++ Mule::lookup('prepare-endpoint', attributes.relativePath) ++ " function"
+}]]></ee:set-payload>
+				</ee:message>
+		</ee:transform>
+	 </flow>
+	 
+	 <flow name="post:\dataweave\last:mule-4.4.0-config">
+		<ee:transform doc:name="Prepare response" doc:id="51e799fc-4930-4322-83d0-9a2b953cdbfc" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+import last from dw::core::Strings
+output application/json
+---
+{	"last Output" : {
+		"last_6_character" : "Ankur Jyoti Bhuyan" last 6,
+    	"last_12_character" : "Ankur Jyoti Bhuyan" last 12
+    },
+	"message" : "Request processed successfully for " ++ Mule::lookup('prepare-endpoint', attributes.relativePath) ++ " function"
+}]]></ee:set-payload>
+				</ee:message>
+		</ee:transform>
+	 </flow>
+	 
+	 <flow name="post:\dataweave\hammingDistance:mule-4.4.0-config">
+		<ee:transform doc:name="Prepare response" doc:id="605e1d17-1965-4e9f-9a1a-9a9d80fe35d1" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+import hammingDistance from dw::core::Strings
+output application/json
+---
+{
+	"hammingDistance Output" : {
+		"hammingDistance_between_1_and_1" : "1" hammingDistance "1",
+    	"hammingDistance_between_0_and_1" : "0" hammingDistance "1",
+    	"hammingDistance_between_0_and_5" : "0" hammingDistance "5",
+    	"hammingDistance_between_010_and_011" : "010" hammingDistance "011",
+    	"hammingDistance_between_010_and_111" : "010" hammingDistance "111",
+    	"hammingDistance_between_010_and_101" : "010" hammingDistance "101",
+    	"hammingDistance_between_011_and_101" : "011" hammingDistance "101",
+    	"hammingDistance_between_011_and_111" : "011" hammingDistance "111",
+    	"hammingDistance_between_011_and_101" : "011" hammingDistance "101"
+    },
+	"message" : "Request processed successfully for " ++ Mule::lookup('prepare-endpoint', attributes.relativePath) ++ " function"
+}]]></ee:set-payload>
+				</ee:message>
+		</ee:transform>
+	 </flow>
+	 
+	 <flow name="post:\dataweave\levenshteinDistance:mule-4.4.0-config">
+		<ee:transform doc:name="Prepare response" doc:id="73b08b1c-5dde-40ff-ac01-5fcdce8b1297" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+import levenshteinDistance from dw::core::Strings
+output application/json
+---
+{
+	"levenshteinDistance Output" : {
+		"levenshteinDistance_between_kitten_and_sitting" : "kitten" levenshteinDistance "sitting",
+    	"levenshteinDistance_between_Sunday_and_Saturday" : "Sunday" levenshteinDistance "Saturday"
+    },
+	"message" : "Request processed successfully for " ++ Mule::lookup('prepare-endpoint', attributes.relativePath) ++ " function"
+}]]></ee:set-payload>
+				</ee:message>
+		</ee:transform>
+	 </flow>
+	 
+	  <flow name="post:\dataweave\lines:mule-4.4.0-config">
+		<ee:transform doc:name="Prepare response" doc:id="7824096f-1ec2-41ec-b1f6-c24c9412d27b" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+import lines from dw::core::Strings
+output application/json
+---
+{
+	"lines Output" : {
+		"break_lines_to_array": lines("Hello Ankur,\nWelcome to Dataweave 2.4"),
+    	"break_lines_to_array": lines("1\n2\r3\n4"),
+    	"break_null": lines(null)
+    },
+	"message" : "Request processed successfully for " ++ Mule::lookup('prepare-endpoint', attributes.relativePath) ++ " function"
+}]]></ee:set-payload>
+				</ee:message>
+		</ee:transform>
+	 </flow>
+	 
+	 <flow name="post:\dataweave\mapString:mule-4.4.0-config">
+		<ee:transform doc:name="Prepare response" doc:id="19be750c-fbd6-494f-b3d8-7df8f63aa1f5" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+import mapString, isNumeric from dw::core::Strings
+output application/json
+---
+{
+	"mapString Output" : {
+		"mapString_filter_non_numeric": ("~_123abc456_~" mapString if (isNumeric($)) "" else $),
+    	"mapString_filter_only_numeric": ("~_123abc456_~" mapString if (!isNumeric($)) "" else $)
+    },
+	"message" : "Request processed successfully for " ++ Mule::lookup('prepare-endpoint', attributes.relativePath) ++ " function"
+}]]></ee:set-payload>
+				</ee:message>
+		</ee:transform>
+	 </flow>
+	 
+	 <flow name="post:\dataweave\remove:mule-4.4.0-config">
+		<ee:transform doc:name="Prepare response" doc:id="5a2b6708-04f0-4819-be8a-f34c86bc0adb" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+import remove from dw::core::Strings
+output application/json
+---
+{
+	"remove Output" : {
+		"remove_matching": "ankurjyotibhuyan, ankur.bhuyan@ankuran.online, Ankur" remove "ankur",
+    	"remove_null": null remove "ankur"
+    },
+	"message" : "Request processed successfully for " ++ Mule::lookup('prepare-endpoint', attributes.relativePath) ++ " function"
+}]]></ee:set-payload>
+				</ee:message>
+		</ee:transform>
+	 </flow>
+	 
+	 <flow name="post:\dataweave\reverse:mule-4.4.0-config">
+		<ee:transform doc:name="Prepare response" doc:id="6bc5b323-fd73-4b5e-9638-3c0fbc4e58e5" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+import reverse from dw::core::Strings
+output application/json
+---
+{
+	"reverse Output" : {
+		"reverse_string": reverse("ANKUR"),
+    	"reverse_number": reverse("12345"),
+    	"reverse_null": reverse(null)
+    },
+	"message" : "Request processed successfully for " ++ Mule::lookup('prepare-endpoint', attributes.relativePath) ++ " function"
+}]]></ee:set-payload>
+				</ee:message>
+		</ee:transform>
+	 </flow>
+	 
+	 <flow name="post:\dataweave\replaceall:mule-4.4.0-config">
+		<ee:transform doc:name="Prepare response" doc:id="aa599aaa-c119-4156-86b6-fa8c25431785" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+import replaceAll from dw::core::Strings
+output application/json
+---
+{
+	"replaceall Output" : {
+		"replace_single_match": replaceAll("Ankur", "r" , "R"),
+    	"replace_single_match": replaceAll("ABCD", "A" , "B"),
+    	"replace_multiple_match": replaceAll("AAAA", "A" , "B"),
+    	"replace_non_match": replaceAll("Ankur", "j" , "J"),
+    	"replace_null": replaceAll(null, "aria" , "A")
+    },
+	"message" : "Request processed successfully for " ++ Mule::lookup('prepare-endpoint', attributes.relativePath) ++ " function"
+}]]></ee:set-payload>
+				</ee:message>
+		</ee:transform>
+	 </flow>
+	 
+	 <flow name="post:\dataweave\someCharacter:mule-4.4.0-config">
+		<ee:transform doc:name="Prepare response" doc:id="54a264b3-9214-4492-99f9-b1364fd5e52e" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+import someCharacter, isUpperCase, isLowerCase, isNumeric, isWhitespace from dw::core::Strings
+output application/json
+---
+{
+	"someCharacter Output" : {
+		"someCharacter_isUpper": "Ankur Jyoti Bhuyan" someCharacter isUpperCase($),
+    	"someCharacter_isLower": "Ankur Jyoti Bhuyan" someCharacter isLowerCase($),
+    	"someCharacter_isNumeric": "ankur.bhuyan21@ankuran.online" someCharacter isNumeric($),
+    	"someCharacter_isWhitespace": "Ankur Jyoti Bhuyan" someCharacter isWhitespace($)
+    },
+	"message" : "Request processed successfully for " ++ Mule::lookup('prepare-endpoint', attributes.relativePath) ++ " function"
+}]]></ee:set-payload>
+				</ee:message>
+		</ee:transform>
+	 </flow>
+	 
+	 <flow name="post:\dataweave\substring:mule-4.4.0-config">
+		<ee:transform doc:name="Prepare response" doc:id="f579bea0-bb5b-46dc-8aa5-2bb0d4e35419" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+import substring from dw::core::Strings
+output application/json
+---
+{
+	"substring Output" : {
+		"substring_0_to_11": substring("Ankur Jyoti Bhuyan", 0, 11)
+    },
+	"message" : "Request processed successfully for " ++ Mule::lookup('prepare-endpoint', attributes.relativePath) ++ " function"
+}]]></ee:set-payload>
+				</ee:message>
+		</ee:transform>
+	 </flow>
+	 
+	 <flow name="post:\dataweave\substringBy:mule-4.4.0-config">
+		<ee:transform doc:name="Prepare response" doc:id="3758f8e9-fe38-4ff6-813b-6cdb66f7f734" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+import substringBy, isWhitespace from dw::core::Strings
+output application/json
+---
+{
+	"substringBy Output" : {
+		"substringBy_whitespace": "Ankur Jyoti Bhuyan" substringBy isWhitespace($),
+    	"substringBy_comma": "Ankur Jyoti Bhuyan,ankur.bhuyan@ankuran.online" substringBy $ == ",",
+    	"substringBy_multple_condition": "Hello~world=here_is Ankur-Bhuyan" substringBy $ == "~" or $ == "=" or $ == "_" or isWhitespace($)
+    },
+	"message" : "Request processed successfully for " ++ Mule::lookup('prepare-endpoint', attributes.relativePath) ++ " function"
+}]]></ee:set-payload>
+				</ee:message>
+		</ee:transform>
+	 </flow>
+	 
+	 <flow name="post:\dataweave\substringEvery:mule-4.4.0-config">
+		<ee:transform doc:name="Prepare response" doc:id="cfc69ad2-beb8-4f16-b61f-548bf6459c49" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+import substringEvery from dw::core::Strings
+output application/json
+---
+{
+	"substringEvery Output" : {
+		"substringEvery_5_character": substringEvery("AnkurJyotiBhuyan", 5)
+    },
+	"message" : "Request processed successfully for " ++ Mule::lookup('prepare-endpoint', attributes.relativePath) ++ " function"
+}]]></ee:set-payload>
+				</ee:message>
+		</ee:transform>
+	 </flow>
+	 
+	 <flow name="post:\dataweave\words:mule-4.4.0-config">
+		<ee:transform doc:name="Prepare response" doc:id="39d82aeb-e128-462e-a827-62305589e181" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+import words from dw::core::Strings
+output application/json
+---
+{
+	"words Output" : {
+		"words_to_array": words("Ankur Jyoti Bhuyan\tankur.bhuyan@ankuran.online\n\nData-Weave")
+    },
+	"message" : "Request processed successfully for " ++ Mule::lookup('prepare-endpoint', attributes.relativePath) ++ " function"
+}]]></ee:set-payload>
+				</ee:message>
+		</ee:transform>
+	 </flow>
+</mule>
