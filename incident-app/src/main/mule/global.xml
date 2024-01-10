@@ -25,10 +25,10 @@ http://www.mulesoft.org/schema/mule/servicenow http://www.mulesoft.org/schema/mu
 	<http:listener-config name="incident-app-httpListenerConfig">
         <http:listener-connection host="0.0.0.0" port="${secure::http.listener.private_port}" readTimeout="${secure::http.listener.read_timeout}"/>
     </http:listener-config>
-    <!-- <apikit:config name="incident-app-config" api="incident-app.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" /> -->
-    <apikit:config name="incident-app-config" api="resource::3c51f983-0987-44e2-b3a7-a10a94532588:incident-app:1.0.0:raml:zip:incident-app.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <apikit:config name="incident-app-config" api="incident-app.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <!-- <apikit:config name="incident-app-config" api="resource::3c51f983-0987-44e2-b3a7-a10a94532588:incident-app:1.0.0:raml:zip:incident-app.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" /> -->
    	<api-gateway:autodiscovery apiId="${secure::api.id}" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="8eddae31-ee70-4033-b906-2d713090e6f7" flowRef="incident-app-main" />
-	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="a864495e-d5ca-4e13-a46b-b5eb7ab2b982" file="properties\incident-app-${mule.env}.yaml" key="${secure.properties.key}" />
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="a864495e-d5ca-4e13-a46b-b5eb7ab2b982" file="properties\incident-app-dev.yaml" key="YOS1pEq375iLiZiB" />
 	<servicenow:config name="ServiceNow_Config" doc:name="ServiceNow Config" doc:id="1af0e739-d0d5-4a35-a71a-3125151b564d" >
 		<servicenow:basic-connection username="${secure::service.username}" password="${secure::service.password}" serviceAddress="${secure::service.address}" />
 	</servicenow:config>
