@@ -48,7 +48,8 @@ export const environment = {
     * Accesses : A admin user can create, view and update an incident. Also view the list of incidents that belong to mulesoft group.
 
 #### Preview : login
-![login page](https://github.com/firstqa-systems/manage-servicenow-incident/assets/144072711/3baadc80-b3fc-4398-89a8-1149f5fc9871)
+![login](https://github.com/anky123/ankuran.online.mule4/assets/13630010/07e8d982-2ab7-4e36-9a68-9efb5093542e)
+
 
 ### Home page
 * Once user sucessfully logged in, it will redirect to the home page. 
@@ -56,20 +57,23 @@ export const environment = {
 * In current version, a normal user only can create an incident.
 
 #### Preview : home
-![home](https://github.com/firstqa-systems/manage-servicenow-incident/assets/144072711/57a80904-032c-4002-8a51-9602a0e6515f)
+![home](https://github.com/anky123/ankuran.online.mule4/assets/13630010/8dfaa167-d98e-4d4e-ad79-f823fa5f19ec)
+
 
 ### Admin page (list of incidents)
 * This page contains most of the features for an user.
 * An admin user can view list of incident that belong to mulesoft user group.
   
 #### Preview : list of incidents
-![list of incidents](https://github.com/firstqa-systems/manage-servicenow-incident/assets/144072711/0e4f8b85-942d-4f6b-b1cc-5e8f896a2915)
+![list of incidents](https://github.com/anky123/ankuran.online.mule4/assets/13630010/12d8d3ab-920c-4a93-9640-7f26711497a7)
+
 
 ### Admin page (view an incident)
 * User can view an incident details that will fetch from servicenow portal based on user click.
   
 #### Preview : view an incident
-![view an incident](https://github.com/firstqa-systems/manage-servicenow-incident/assets/144072711/2f7497ff-f00d-4375-bff7-d71d72298a05)
+![view an incident](https://github.com/anky123/ankuran.online.mule4/assets/13630010/6a9c38d4-245a-463d-a4da-903c40830ed8)
+
 
 ### Admin page (update an incident)
 * User can update an incident and backend will update the same in servicenow portal.
@@ -79,17 +83,20 @@ export const environment = {
   * User can upload the attachment of an issue.
   
 #### Preview : update an incident
-![update an icident](https://github.com/firstqa-systems/manage-servicenow-incident/assets/144072711/d921073e-d082-40af-8b59-a01799e871ad)
+![update an incident](https://github.com/anky123/ankuran.online.mule4/assets/13630010/8eecfe23-bbb2-42d5-9200-2215100093eb)
+
 
 ##### Preview : update response
-![update response](https://github.com/firstqa-systems/manage-servicenow-incident/assets/144072711/71a0637e-e8a6-4dc4-8046-d03982a42531)
+![update response](https://github.com/anky123/ankuran.online.mule4/assets/13630010/e3d6bd37-5737-4611-8e9e-dbd29636caa6)
+
 
 ##### Admin page (upload an attahment)
 * User can upload an attachment related to an issue.
 * In backend it will upload into servicenow for the specified incident.
 
 ##### Preview : upload an attahment
-![upload an attahment](https://github.com/firstqa-systems/manage-servicenow-incident/assets/144072711/b778be73-3b37-45cf-939b-04aa99d1bd4b)
+![upload an attahment](https://github.com/anky123/ankuran.online.mule4/assets/13630010/ce3060bb-05c1-48f7-9b91-839ee47f64d4)
+
 
 ##### Preview : upload response
-![upload response](https://github.com/firstqa-systems/manage-servicenow-incident/assets/144072711/a460e221-d90c-488f-8b84-9628449ccf5a)
+![upload response](https://github.com/anky123/ankuran.online.mule4/assets/13630010/6c118d0a-9169-4a5c-9589-3b8c58cc0609)
