@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	
+	<error-handler name="common-global-exception-flow" doc:id="d071bf69-5448-40dc-b1fd-2e61af90be47" >
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="331ab362-f38b-4f1d-b1b7-5cf35f4d8187" type="ANY">
+			<ee:transform doc:name="Prepare Error Response" doc:id="beee111a-663e-4d3a-9c32-3671c314dba7" >
+				<ee:message >
+					<ee:set-payload resource="dwl/prepareError.dwl" />
+				</ee:message>
+			</ee:transform>
+		</on-error-continue>	
+	</error-handler>
+	
+	<flow name="prepare-endpoint" >
+  		<set-payload value="#[%dw 2.0&#10;import * from dw::core::Strings&#10;output application/json&#10;---&#10;substringAfterLast(payload, '/')]" doc:name="Set Payload" />
+	</flow>
+</mule>

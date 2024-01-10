@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:tracing="http://www.mulesoft.org/schema/mule/tracing"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:json="http://www.mulesoft.org/schema/mule/json"
+	xmlns:os="http://www.mulesoft.org/schema/mule/os" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" 
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" 
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd 
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd
+http://www.mulesoft.org/schema/mule/tracing http://www.mulesoft.org/schema/mule/tracing/current/mule-tracing.xsd">
+    
+    
+    <http:listener-config name="mule-4.4.0-httpListenerConfig">
+        <http:listener-connection host="${http.private.host}" port="${http.private.port}" />
+    </http:listener-config>
+    
+    <apikit:config name="mule-4.4.0-config" api="mule-4.4.0-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    
+    <configuration-properties doc:name="Configuration properties" doc:id="8a443d9c-5ec9-4add-b3de-522a0a49a54d" file="properties/${mule.env}-properties.yaml" />
+	
+	<configuration doc:name="Configuration" doc:id="71116c74-fd1e-4630-948a-c6fd634ad536" correlationIdGeneratorExpression="#[uuid() replace /-/ with('_')]" />
+	
+	
+</mule>
