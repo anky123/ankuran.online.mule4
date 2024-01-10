@@ -1,0 +1,27 @@
+################################
+### AnypointMQ Configuration ###
+################################
+anypoint_mq:
+    client_id: "TODO"
+    client_secret: "TODO"
+    user_registration:
+      queue: "user-registration-queue-dev"
+    deadLetter:
+      queue: "user-deadletter-queue-dev"
+      maxUserRegistrationReprocessAttempts: "3"
+    parking:
+      queue: "user-parking-queue-dev"
+      
+#################################
+### Backend API Configuration ###
+#################################
+api:
+  host: "localhost"
+  port: "8081"
+  base_path:  "/api"
+  path:  "/postEmployee" 
+  response_timeout: "60000"
+  connection_idle_timeout: "60000"
+  retry:
+    number_of_retry: "3"
+    milliseconds_between_retry: "3000"
