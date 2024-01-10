@@ -1,0 +1,31 @@
+#%RAML 1.0
+
+title: logging-and-error-framework-test-api
+description: This API is to test the logging and error handling framework.
+version: v0
+protocols: [HTTPS]
+
+uses:
+  requestParams: traits/queryParams.raml
+  
+/process-valid-http:
+    description: This API end point is to process the request
+    is: requestParams.requestInfo
+    post:
+      responses:
+        200:
+          body:
+            application/json:
+              examples:
+                transactionsResponseExample: !include examples/successResponse.raml
+                
+/process-invalid-http:
+    description: This API end point is to process the request
+    is: requestParams.requestInfo
+    post:
+      responses:
+        200:
+          body:
+            application/json:
+              examples:
+                transactionsResponseExample: !include examples/successResponse.raml            
