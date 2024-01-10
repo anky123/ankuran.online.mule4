@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+	xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/munit-tools http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="apikit-invalid-test-suite.xml">
+		<munit:parameterizations >
+			<munit:parameterization name="001" >
+				<munit:parameters >
+					<munit:parameter propertyName="caseNumber" value="001" />
+					<munit:parameter propertyName="expectedType" value="REQUIRED_KEY" />
+					<munit:parameter propertyName="expectedCode" value="ANK000001" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="002" >
+				<munit:parameters >
+					<munit:parameter propertyName="caseNumber" value="002" />
+					<munit:parameter propertyName="expectedType" value="TYPE" />
+					<munit:parameter propertyName="expectedCode" value="ANK000002" />
+				</munit:parameters>
+			</munit:parameterization>
+			<!-- <munit:parameterization name="003" >
+				<munit:parameters >
+					<munit:parameter propertyName="caseNumber" value="003" />
+					<munit:parameter propertyName="expectedType" value="MIN_LENGTH" />
+					<munit:parameter propertyName="expectedCode" value="ANK000003" />
+				</munit:parameters>
+			</munit:parameterization> -->
+			<munit:parameterization name="004" >
+				<munit:parameters >
+					<munit:parameter propertyName="caseNumber" value="004" />
+					<munit:parameter propertyName="expectedType" value="MAX_LENGTH" />
+					<munit:parameter propertyName="expectedCode" value="ANK000003" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="005" >
+				<munit:parameters >
+					<munit:parameter propertyName="caseNumber" value="005" />
+					<munit:parameter propertyName="expectedType" value="PATTERN" />
+					<munit:parameter propertyName="expectedCode" value="ANK000002" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="006" >
+				<munit:parameters >
+					<munit:parameter propertyName="caseNumber" value="006" />
+					<munit:parameter propertyName="expectedType" value="TYPE" />
+					<munit:parameter propertyName="expectedCode" value="ANK000002" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="007" >
+				<munit:parameters >
+					<munit:parameter propertyName="caseNumber" value="007" />
+					<munit:parameter propertyName="expectedType" value="PATTERN" />
+					<munit:parameter propertyName="expectedCode" value="ANK000002" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="008" >
+				<munit:parameters >
+					<munit:parameter propertyName="caseNumber" value="008" />
+					<munit:parameter propertyName="expectedType" value="ENUM" />
+					<munit:parameter propertyName="expectedCode" value="ANK000002" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="009" >
+				<munit:parameters >
+					<munit:parameter propertyName="caseNumber" value="009" />
+					<munit:parameter propertyName="expectedType" value="DATE" />
+					<munit:parameter propertyName="expectedCode" value="ANK000002" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="010" >
+				<munit:parameters >
+					<munit:parameter propertyName="caseNumber" value="010" />
+					<munit:parameter propertyName="expectedType" value="DATE" />
+					<munit:parameter propertyName="expectedCode" value="ANK000002" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="011" >
+				<munit:parameters >
+					<munit:parameter propertyName="caseNumber" value="011" />
+					<munit:parameter propertyName="expectedType" value="MIN_ITEMS" />
+					<munit:parameter propertyName="expectedCode" value="ANK000003" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="012" >
+				<munit:parameters >
+					<munit:parameter propertyName="caseNumber" value="012" />
+					<munit:parameter propertyName="expectedType" value="TYPE" />
+					<munit:parameter propertyName="expectedCode" value="ANK000002" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="013" >
+				<munit:parameters >
+					<munit:parameter propertyName="caseNumber" value="013" />
+					<munit:parameter propertyName="expectedType" value="MIN_LENGTH" />
+					<munit:parameter propertyName="expectedCode" value="ANK000003" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="014" >
+				<munit:parameters >
+					<munit:parameter propertyName="caseNumber" value="014" />
+					<munit:parameter propertyName="expectedType" value="MAX_LENGTH" />
+					<munit:parameter propertyName="expectedCode" value="ANK000003" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="015" >
+				<munit:parameters >
+					<munit:parameter propertyName="caseNumber" value="015" />
+					<munit:parameter propertyName="expectedType" value="MIN_LENGTH" />
+					<munit:parameter propertyName="expectedCode" value="ANK000003" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="016" >
+				<munit:parameters >
+					<munit:parameter propertyName="caseNumber" value="016" />
+					<munit:parameter propertyName="expectedType" value="TYPE" />
+					<munit:parameter propertyName="expectedCode" value="ANK000002" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="017" >
+				<munit:parameters >
+					<munit:parameter propertyName="caseNumber" value="017" />
+					<munit:parameter propertyName="expectedType" value="PATTERN" />
+					<munit:parameter propertyName="expectedCode" value="ANK000002" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="018" >
+				<munit:parameters >
+					<munit:parameter propertyName="caseNumber" value="018" />
+					<munit:parameter propertyName="expectedType" value="MAX_LENGTH" />
+					<munit:parameter propertyName="expectedCode" value="ANK000003" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="019" >
+				<munit:parameters >
+					<munit:parameter propertyName="caseNumber" value="019" />
+					<munit:parameter propertyName="expectedType" value="DATETIME" />
+					<munit:parameter propertyName="expectedCode" value="ANK000002" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="020" >
+				<munit:parameters >
+					<munit:parameter propertyName="caseNumber" value="020" />
+					<munit:parameter propertyName="expectedType" value="DATETIME_ONLY" />
+					<munit:parameter propertyName="expectedCode" value="ANK000002" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="021" >
+				<munit:parameters >
+					<munit:parameter propertyName="caseNumber" value="021" />
+					<munit:parameter propertyName="expectedType" value="TIME" />
+					<munit:parameter propertyName="expectedCode" value="ANK000002" />
+				</munit:parameters>
+			</munit:parameterization>
+		</munit:parameterizations>
+	</munit:config>
+	<munit:test name="【invalid】post-employee" doc:id="3747722a-c40d-4058-86ab-08d03f138e8f" >
+		<munit:enable-flow-sources >
+			<munit:enable-flow-source value="api-main" />
+			<munit:enable-flow-source value="post:\post-employee:application\json:api-config" />
+		</munit:enable-flow-sources>
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="process-employee" doc:id="6e01afd2-2dd7-4bfe-b803-a3ca5f40484a" processor="flow-ref" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="416f67d7-7d4a-4db0-a2b9-df1898ca3a60" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:variables >
+						<munit-tools:variable key="httpStatus" value="#[200]" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<ee:transform doc:name="attributes" doc:id="7d94c2bb-b350-430f-8c7e-d43d16a8aef2" >
+				<ee:message >
+					<ee:set-attributes ><![CDATA[%dw 2.0
+output application/java
+---
+readUrl("classpath://test-data/employee/request/valid-req-attributes.json", "application/json") as Object {class: "org.mule.extension.http.api.HttpRequestAttributes"}]]></ee:set-attributes>
+				</ee:message>
+			</ee:transform>
+			<ee:transform doc:name="payload" doc:id="7c934c10-d874-4207-be27-de6c8b1a1c5a" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+var fileBaseName = "-invalid-payload.json"
+var caseNumber = Mule::p("caseNumber")
+var fileName = caseNumber ++ fileBaseName
+---
+readUrl("classpath://test-data/employee/payload/$(fileName)", "application/json")]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<try doc:name="Try" doc:id="66329c78-432c-4e45-af02-1df6dcf89d62" >
+				<flow-ref doc:name="api-main" doc:id="aaac14d4-113c-4c6e-a16e-cada29a97410" name="api-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="fdf38ac2-9f9a-4d39-b152-5f37874e3a1c" >
+						<set-payload value="#[payload]" doc:name="Set Payload" doc:id="7443ee4b-f105-491d-9f80-2e221c65155a" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="expectedType" doc:id="c0f2920a-3bea-4c51-88ac-99bd6df248ef" actual="#[payload.errorType]" expected='#[Mule::p("expectedType")]' />
+			<munit-tools:assert-equals doc:name="expectedCode" doc:id="c0f2920a-3bea-4c51-88ac-99bd6df248ef" actual="#[payload.errors[0].code]" expected='#[Mule::p("expectedCode")]' />
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

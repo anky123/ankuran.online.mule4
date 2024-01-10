@@ -1,0 +1,15 @@
+#%RAML 1.0
+title: API With Different Data Types
+
+traits:
+  header-client-credentials-required: !include traits/header-client-credentials-required.raml
+  
+types:
+  post-employee-request: !include dataTypes/post-employee-request.raml
+  post-employee-response: !include dataTypes/post-employee-response.raml
+
+resourceTypes:
+  employee: !include /employee/resourceType.raml
+  
+/post-employee:
+    type: employee

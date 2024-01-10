@@ -1,0 +1,19 @@
+#%RAML 1.0 ResourceType
+
+post:
+  is:
+    - header-client-credentials-required
+  body:
+    application/json:
+      type: post-employee-request
+      example: !include examples/post-employee-request-example.raml
+  responses:
+    200:
+      body:
+        application/json:
+          type: post-employee-response
+          example: !include examples/post-employee-response-example.raml
+    400:
+      description: 
+    500:
+      description:

@@ -1,0 +1,82 @@
+#%RAML 1.0 DataType
+
+type: object
+properties:
+  employeeId: 
+    type: integer
+    required: true
+    minimum: 8
+  firstName: 
+    type: string
+    required: true
+    minLength: 1
+    maxLength: 10
+    pattern: ^[A-Za-z]*
+  lastName: 
+    type: string
+    required: true
+    minLength: 1
+    maxLength: 10
+    pattern: ^[A-Za-z]*
+  email:
+    pattern: ^.+@.+\..+$
+  gender:
+    enum: [male, female]
+    default: male
+    required: true
+  dateOfBirh:
+    type: date-only
+    required: true 
+  addresses:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      properties:
+        isPermanent:
+          type: boolean
+          required: true
+        street:
+          type: string
+          required: true
+          minLength: 5
+          maxLength: 50
+          pattern: ^[A-Za-z ]*
+        district:
+          type: string
+          required: true
+          minLength: 3
+          maxLength: 20
+          pattern: ^[A-Za-z]*
+        state:
+          type: string
+          required: true
+          minLength: 5
+          maxLength: 15
+          pattern: ^[A-Za-z]*
+        pinNumber:
+          type: integer
+          required: true
+          minimum: 6
+        province:
+          type: string
+          required: true
+          minLength: 1
+          maxLength: 10
+          pattern: ^[A-Za-z]*
+        phoneNumber:
+          type: string
+          required: true
+          minLength: 1
+          maxLength: 13
+          pattern: ^\s*|^(0|91)?[6-9][0-9]{9}$
+  created:
+    type: datetime
+    format: rfc3339
+    required: true
+  createdDateTime:
+    type: datetime-only
+    required: true
+  createdTime:
+    type: time-only
+    required: true

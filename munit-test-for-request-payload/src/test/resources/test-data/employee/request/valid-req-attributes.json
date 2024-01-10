@@ -1,0 +1,19 @@
+{
+   "requestPath": "/api/post-employee",
+   "rawRequestPath": "/api/post-employee",
+   "method": "POST",
+   "listenerPath": "/api/*",
+   "localAddress": "/127.0.0.1:8081",
+   "queryString": "",
+   "relativePath": "/api/post-employee",
+   "remoteAddress": "/127.0.0.1:60680",
+   "requestUri": "/api/post-employee",
+   "rawRequestUri": "/api/post-employee",
+   "scheme": "http",
+   "version": "HTTP/1.1",
+   "headers": {
+      "client_secret": "4a87fe7e2e43488c927372AEF981F066",
+      "client_id": "d1374b15c6864c3682ddbed2a247a826",
+      "content-type": "application/json"
+   }
+}

@@ -1,0 +1,22 @@
+{
+    "employeeId": 12345678,
+    "firstName": "Ankur",
+    "lastName": "Bhuyan",
+    "email": "ankur.bhuyan@gmail.com",
+    "gender": "male",
+    "dateOfBirh": "2000-04-01",
+    "addresses": [
+        {
+            "isPermanent": true,
+            "street": "A",
+            "district": "Sunitpur",
+            "state": "Assam",
+            "pinNumber": 784507,
+            "province": "Tezpur",
+            "phoneNumber": "+919590951234"
+        }
+    ],
+    "created": "2016-02-28T12:30:00.090Z",
+    "createdDateTime": "2016-02-28T12:30:00",
+    "createdTime": "12:30:00"
+}
