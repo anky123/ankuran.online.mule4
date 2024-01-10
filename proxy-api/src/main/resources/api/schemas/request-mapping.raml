@@ -1,0 +1,19 @@
+#%RAML 1.0 Library
+types:
+  Request:
+    properties:
+      host:
+        required: true
+        enum: ["backend01", "backend02" ]
+      method:
+        required: true
+        enum: ["GET", "POST", "PUT", "DELETE", "PATCH" ]
+      endpoint:
+        required: true
+        type: string
+      forwarder-content-type:
+        required: false
+        type: string
+      body:
+        required: false
+        type: any

@@ -1,0 +1,26 @@
+#######################################
+### HTTP Listener & Request Configuration ###
+#######################################
+http:
+  proxy:
+    listener:
+      host: "0.0.0.0"
+      port: "8082"
+  backend01:
+    listener:
+      host: "0.0.0.0"
+      port: "8083"
+    requester:
+      host: "0.0.0.0"
+      port: "8083"
+      connection_idle_timeout: "50000"
+      stream_response: "true"
+  backend02:
+    listener:
+      host: "0.0.0.0"
+      port: "8084"
+    requester:
+      host: "0.0.0.0"
+      port: "8084"
+      connection_idle_timeout: "50000"
+      stream_response: "true"

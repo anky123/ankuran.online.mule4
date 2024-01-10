@@ -1,0 +1,24 @@
+{
+	"firstName": "Ankur",
+	"middleName": "Jyoti",
+	"lastName": "Bhuyan",
+	"email": "webmail.ajb@ankuran.online",
+	"gender": "Male",
+	"phone": 9590951212,
+	"currentAddress": {
+		"isCurrentAddress": true,
+		"street": "Elcetronic City",
+		"city": "Bangalore",			
+		"district": "Bangalore",
+		"pin": 56860,
+		"country": "India"		
+	},
+	"permanentAddress": {
+		"isCurrentAddress": false,
+		"street": "3 Rue Renee Aspe",
+		"city": "Toulouse",
+		"district": "Occitanie",
+		"pin": 31000,
+		"country": "France"
+	}
+}
