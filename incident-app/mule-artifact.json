@@ -1,0 +1,18 @@
+{
+	"configs": [
+		"exception-handling.xml",
+		"global.xml",
+		"incident-app.xml",
+		"process-incident.xml"
+	],
+	"secureProperties": [
+		"anypoint.platform.client_id",
+		"anypoint.platform.client_secret",
+		"secure.properties.key",
+		"anypoint.platform.base_uri"
+	],
+	"redeploymentEnabled": true,
+	"name": "incident-app",
+	"minMuleVersion": "4.4.0",
+	"requiredProduct": "MULE_EE"
+}

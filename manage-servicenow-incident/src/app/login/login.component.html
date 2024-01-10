@@ -1,0 +1,39 @@
+<section class="vh-100 hh-100 bg-image"
+   style="background-image: url('./../../../assets/images/background.jpg');">
+   <div class="mask d-flex align-items-center h-100">
+      <div class="container h-100">
+         <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+               <div class="card" style="border-radius: 15px;">
+                  <div class="card-body p-6">
+                     <h4 class="text-uppercase text-center">Manage servicenow incident</h4>
+                     <div class="card-body">
+                        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                        <div class="mb-3">
+                           <label class="form-label">Username</label>
+                           <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['username'].errors }" />
+                           <div *ngIf="submitted && f['username'].errors" class="invalid-feedback">
+                              <div *ngIf="f['username'].errors['required']">Username is required</div>
+                           </div>
+                        </div>
+                        <div class="mb-3">
+                           <label class="form-label">Password</label>
+                           <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" />
+                           <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+                              <div *ngIf="f['password'].errors['required']">Password is required</div>
+                           </div>
+                        </div>
+                        <button [disabled]="loading" class="btn btn-success btn-block btn-sm gradient-custom-4 text-body mat-elevation-z8">
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+                        Login
+                        </button>
+                        <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+                        </form>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>

@@ -1,0 +1,106 @@
+<div>
+   <h2 class="modal-title text-uppercase text-center mb-5">Incident details</h2>
+</div>
+<div class="mat-elevation-z8">
+   <div class="modal-body" >
+      <div class="card-body">
+         <table class="table table-hover table-success">
+            <tr class="text-muted mb-0" *ngIf="incident.sys_id != null && incident.sys_id != ''">
+               <th>System Id :</th>
+               <td>{{incident.sys_id}}</td>
+            </tr>
+            <tr class="text-muted mb-0" *ngIf="incident.number != null && incident.number != ''">
+               <th>Incident Id :</th>
+               <td>{{incident.number}}</td>
+            </tr>
+            <tr class="text-muted mb-0" *ngIf="incident.short_description != null && incident.short_description != ''">
+               <th>Short Description :</th>
+               <td>{{incident.short_description}}</td>
+            </tr>
+            <tr class="text-muted mb-0" *ngIf="incident.description != null && incident.description != ''">
+               <th>Detail Description :</th>
+               <td>{{incident.description}}</td>
+            </tr>
+            <tr class="text-muted mb-0" *ngIf="incident.impact != null && incident.urgency != ''">
+               <th>Impact :</th>
+               <td>{{incident.impact}}</td>
+            </tr>
+            <tr class="text-muted mb-0" *ngIf="incident.urgency != null && incident.urgency != ''">
+               <th>Urgency :</th>
+               <td>{{incident.urgency}}</td>
+            </tr>
+            <tr class="text-muted mb-0" *ngIf="incident.priority != null && incident.priority != ''">
+               <th>Priority :</th>
+               <td>{{incident.priority}}</td>
+            </tr>
+            <tr class="text-muted mb-0" *ngIf="incident.incident_state != null && incident.incident_state != ''">
+               <th>Incident Status :</th>
+               <td>{{incident.incident_state}}</td>
+            </tr>
+            <tr class="text-muted mb-0" *ngIf="incident.sys_created_on != null && incident.sys_created_on != ''">
+               <th>Created On :</th>
+               <td>{{incident.sys_created_on}}</td>
+            </tr>
+            <tr class="text-muted mb-0" *ngIf="incident.sys_created_by != null && incident.sys_created_by != ''">
+               <th>Created By :</th>
+               <td>{{incident.sys_created_by}}</td>
+            </tr>
+            <tr class="text-muted mb-0" *ngIf="incident.sys_updated_on != null && incident.sys_updated_on != ''">
+               <th>Last Updated On :</th>
+               <td>{{incident.sys_updated_on}}</td>
+            </tr>
+            <tr class="text-muted mb-0" *ngIf="incident.sys_updated_by != null && incident.sys_updated_by != ''">
+               <th>Last Updated By :</th>
+               <td>{{incident.sys_updated_by}}</td>
+            </tr>
+            <tr class="text-muted mb-0" *ngIf="incident.assigned_to != null && incident.assigned_to != ''">
+               <th>Ticket Assigned To :</th>
+               <td>{{incident.assigned_to}}</td>
+            </tr>
+            <tr class="text-muted mb-0" *ngIf="incident.close_code != null && incident.close_code != ''">
+               <th>Close Code :</th>
+               <td>{{incident.close_code}}</td>
+            </tr>
+            <tr class="text-muted mb-0" *ngIf="incident.close_notes != null && incident.close_notes != ''">
+               <th>Close Notes :</th>
+               <td>{{incident.close_notes}}</td>
+            </tr>
+            <tr class="text-muted mb-0" *ngIf="incident.closed_at != null && incident.closed_at != ''">
+               <th>Closed At :</th>
+               <td>{{incident.closed_at}}</td>
+            </tr>
+            <tr class="text-muted mb-0" *ngIf="incident.closed_by != null && incident.closed_by != ''">
+               <th>Closed By :</th>
+               <td>{{incident.closed_by}}</td>
+            </tr>
+         </table>
+         <div class="mat-elevation-z8" *ngIf="incident.all_comments.length > 0">
+            <table class="table table-hover border mt-2">
+               <thead class="bg-light">
+                  <tr>
+                     <th class="text-muted mb-0">Latest Comment</th>
+                     <th class="text-muted mb-0">Post By</th>
+                     <th class="text-muted mb-0">Post At</th>
+                  </tr>
+               </thead>
+               <tbody *ngFor="let comment of incident.all_comments; let i=index; let first=first;" [ngClass]="{first:first}">
+               <tr *ngIf="first == true">
+                  <td>
+                     <p class="text-muted mb-0" >{{comment.value}}</p>
+                  </td>
+                  <td>
+                     <p class="text-muted mb-0">{{comment.sys_created_by}}</p>
+                  </td>
+                  <td>
+                     <p class="text-muted mb-0">{{comment.sys_created_on}}</p>
+                  </td>
+               </tr>
+               </tbody>
+            </table>
+         </div>
+      </div>
+   </div>
+</div>
+<div class="modal-footer">
+   <button type="button" (click)="activeModal.close('Close click')" class="btn btn-primary btn btn-success btn-block btn-sm gradient-custom-4 text-body col mat-elevation-z8">Cancel</button>
+</div>

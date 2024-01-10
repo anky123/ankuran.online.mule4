@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:servicenow="http://www.mulesoft.org/schema/mule/servicenow"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/servicenow http://www.mulesoft.org/schema/mule/servicenow/current/mule-servicenow.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<sub-flow name="create-incident" doc:id="3902ab6c-3b53-44de-b8b0-f1f7f673c492" >
+		<ee:transform doc:name="Prepare insert request" doc:id="4843b5fb-1669-43a9-8e66-28eacdc23e94" >
+			<ee:message>
+                <ee:set-payload resource="dwl/create_incident.dwl" />
+            </ee:message>
+		</ee:transform>
+		<logger level="DEBUG" doc:name="DEBUG : Before servicenow soap request" doc:id="f49a21be-b10c-4f1a-8ecb-a8dc874a897b" message="#[&quot;===== Before servicenow soap request in  &quot; ++ flow.name ++ &quot; flow =====&quot;]"/>
+        <servicenow:invoke doc:name="Create Incident" doc:id="43d8602a-5558-4c45-8f66-98a8e800678a" config-ref="ServiceNow_Config" service="incident" operation="insert"/>	
+		<logger level="DEBUG" doc:name="DEBUG : After servicenow soap request" doc:id="b7e7d0b0-2d04-4a41-bbfc-a3a1b1f2df7c" message="#[&quot;===== After servicenow soap request in  &quot; ++ flow.name ++ &quot; flow =====&quot;]"/>
+    </sub-flow>  
+    <sub-flow name="incident-upload-file" doc:id="7973c8c9-8425-44b0-95b8-bb6bfd610deb" >
+		<http:request method="POST" doc:name="Upload file" doc:id="82916ed8-4deb-4d78-8122-1510ba768d89" config-ref="Servicenow_HTTP_Request_configuration" path="#[Mule::p('secure::http.requester.servicenow.path.attachment')]" target="attachmentResponse">
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"table_sys_id" : attributes.uriParams.sys_id,
+	"file_name" : attributes.queryParams.fileName,
+	"table_name" : Mule::p('secure::http.requester.servicenow.params.table_name')
+}]]]></http:query-params>
+		</http:request>
+		<logger level="DEBUG" doc:name="DEBUG : After servicenow incident rest request" doc:id="f4814e8d-0a80-48a4-ac09-0e165dd1b295" message="#[&quot;===== After servicenow incident rest request in  &quot; ++ flow.name ++ &quot; flow =====&quot;]"/>
+    </sub-flow>    
+	<sub-flow name="update-incident" doc:id="6539ab8b-4959-44e5-b1cb-9a8cdb7c41ec" >
+		<ee:transform doc:name="Prepare update request" doc:id="a6f4e423-b57d-42f1-942d-41966b50ef78" >
+			<ee:message>
+                <ee:set-payload resource="dwl/update_incident.dwl" />
+            </ee:message>
+		</ee:transform>
+		<logger level="DEBUG" doc:name="DEBUG : Before servicenow soap request" doc:id="1c043194-f54c-498f-a196-c3841212d7b4" message="#[&quot;===== Before servicenow soap request in  &quot; ++ flow.name ++ &quot; flow =====&quot;]"/>
+        <servicenow:invoke doc:name="Update Incident" doc:id="23d63298-c163-4ff8-bb58-106315a4a4c8" config-ref="ServiceNow_Config" service="incident" operation="update"/>	
+		<logger level="DEBUG" doc:name="DEBUG : After servicenow soap request" doc:id="c57eeb52-24c7-4eb9-9765-974a91656351" message="#[&quot;===== After servicenow soap request in  &quot; ++ flow.name ++ &quot; flow =====&quot;]"/>
+    </sub-flow>  
+	<sub-flow name="get-soap-incident" doc:id="f5441466-5f7f-45f4-8bef-e8a394041a61" >
+		<ee:transform doc:name="Prepare get request" doc:id="172043e0-93d5-4d4d-95ed-d02e35576326" >
+			<ee:message >
+				<ee:set-payload resource="dwl/get_incident.dwl" />
+			</ee:message>
+		</ee:transform>
+		<logger level="DEBUG" doc:name="DEBUG : Before servicenow soap request" doc:id="38ad6177-e7c3-4f2e-8e06-4a673a4eaf23" message="#[&quot;===== Before servicenow soap request in  &quot; ++ flow.name ++ &quot; flow =====&quot;]"/>
+        <servicenow:invoke doc:name="Get Incident" doc:id="3863adc2-87c1-447c-920c-bce3b6f7a1c4" config-ref="ServiceNow_Config" service="incident" operation="get"/>
+		<logger level="DEBUG" doc:name="DEBUG : After servicenow soap request" doc:id="b1e12623-ae12-4604-be3f-97e283ad9e35" message="#[&quot;===== After servicenow soap request in  &quot; ++ flow.name ++ &quot; flow =====&quot;]"/>
+    </sub-flow>  
+	<sub-flow name="get-rest-incident" doc:id="a9588acb-c8e8-451d-a857-c20a8ddc69b0" > 
+		<logger level="DEBUG" doc:name="DEBUG : Before servicenow Get Incident rest request" doc:id="cac942cb-5d55-41e5-b830-a2709dace16b" message="#[&quot;===== Before servicenow get incident rest request in  &quot; ++ flow.name ++ &quot; flow =====&quot;]"/>
+        <http:request method="GET" doc:name="Get Incident" doc:id="283c6297-ae56-4ce9-94f0-facf5e603d06" config-ref="Servicenow_HTTP_Request_configuration" path="#[Mule::p('secure::http.requester.servicenow.path.incident') ++ '/' ++ attributes.queryParams.sys_id]" target="incidentResponse">
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"sysparm_display_value" : Mule::p('secure::http.requester.servicenow.params.sysparm_display_value'),
+	"sysparm_limit" : Mule::p('secure::http.requester.servicenow.params.sysparm_limit')
+}]]]></http:query-params>
+		</http:request>
+		<logger level="DEBUG" doc:name="DEBUG : After servicenow Get incident rest request" doc:id="6eb8d2af-b95f-48cf-b0ff-f3c224c7013f" message="#[&quot;===== After servicenow get incident rest request in  &quot; ++ flow.name ++ &quot; flow =====&quot;]"/>
+        <logger level="DEBUG" doc:name="DEBUG : Before servicenow Get comments rest request" doc:id="18994189-b591-441c-a053-9b52ff2871a4" message="#[&quot;===== Before servicenow get comments rest request in  &quot; ++ flow.name ++ &quot; flow =====&quot;]"/>
+        <http:request method="GET" doc:name="Get comments" doc:id="f1e0d88b-ca08-42b3-b5a9-a7ae871d2de3" config-ref="Servicenow_HTTP_Request_configuration" path="${secure::http.requester.servicenow.path.comment}" target="commentResponse">
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"element_id" : attributes.queryParams.sys_id,
+	"sysparm_limit" : Mule::p('secure::http.requester.servicenow.params.sysparm_limit')
+}]]]></http:query-params>
+		</http:request>
+		<logger level="DEBUG" doc:name="DEBUG : After servicenow Get comments rest request" doc:id="b434166f-5dd7-4d5c-a7b3-cf2cb298e777" message="#[&quot;===== After servicenow get comments rest request in  &quot; ++ flow.name ++ &quot; flow =====&quot;]"/>
+	</sub-flow>
+	<sub-flow name="get-incidents" doc:id="448641f8-abde-4b53-8e9d-e7e3c8ecc1a1" >
+		<ee:cache doc:name="Incidents Cache" doc:id="10c45b3c-f10c-4f84-95fd-22736280323a" cachingStrategy-ref="Incidents_Caching_Strategy">
+			<ee:transform doc:name="Prepare get request" doc:id="718a8128-ade4-4208-a1d2-ffdd3e8b3597" >
+				<ee:message >
+					<ee:set-payload resource="dwl/get_incidents.dwl" />
+				</ee:message>
+			</ee:transform>
+			<logger level="INFO" doc:name="INFO : Before servicenow soap request" doc:id="92733e4d-a2f0-4e00-9408-44df4ad7a59e" message="#[&quot;===== Before servicenow soap request in  &quot; ++ flow.name ++ &quot; flow =====&quot;]"/>
+        	<servicenow:invoke doc:name="Get Incidents" doc:id="42b90aa4-f064-4920-966a-e9c584479001" config-ref="ServiceNow_Config" service="incident" operation="getRecords"/>
+			<logger level="INFO" doc:name="INFO : After servicenow soap request" doc:id="39b61404-c881-4915-9bc4-755f4767d769" message="#[&quot;===== After servicenow soap request in  &quot; ++ flow.name ++ &quot; flow =====&quot;]"/>
+    		<ee:transform doc:name="Prepare response" doc:id="9efafc7b-448b-4c3c-aaef-cd518ce36c6d" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload.body.getRecordsResponse  pluck ((value, key, index) -> (value))]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+    	</ee:cache>
+    </sub-flow>  
+</mule>

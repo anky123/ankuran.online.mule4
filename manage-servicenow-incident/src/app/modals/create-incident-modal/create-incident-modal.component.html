@@ -1,0 +1,14 @@
+<div class="modal-header">
+   <h2 class="modal-title text-uppercase text-center mb-5">Incident created</h2>
+</div>
+<div class="modal-body">
+   <div class="card incident-border">
+      <div class="card-body">
+         <p class="card-text">Incident created susccesfully : <b>{{createdIncidentId}}</b></p>
+      </div>
+   </div>
+</div>
+<div class="modal-footer">
+   <!--	<button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>-->
+   <button type="button" data-dismiss="modal" (click)="close()" class="btn btn-primary btn btn-success btn-block btn-lg gradient-custom-4 text-body col">Close</button>
+</div>

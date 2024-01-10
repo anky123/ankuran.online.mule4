@@ -1,0 +1,34 @@
+api:
+  version: "v1"
+  id: "19011146"
+  
+http:
+  listener:
+    basepath: "/${secure::api.version}/*"
+    private_port: "8081"
+    read_timeout: "30000"
+  requester:
+    servicenow:
+      host: "firstqasystemskkdemo4.service-now.com"
+      port: "443"
+      basepath: "/api/now"
+      path:
+        incident: "/table/incident"
+        comment: "/table/sys_journal_field"
+        attachment: "/attachment/file"
+      params:
+        table_name: "incident"
+        sysparm_display_value: "true"
+        sysparm_limit: "100"
+            
+service:
+  username: "![51Ij6fGnMSeyEsMRLZ5hcQ==]"
+  password: "![ii/ueiB+z5Z7Rsx1TDb+0A==]"
+  address: "https://firstqasystemskkdemo4.service-now.com/"
+  callerId: "![cWnOLc98pQV20be+TcNnfRa97WiMo2QRJxdK7lPNN/C27Pj3WKwVkoOVvwXHqEUQ]"
+  
+cache:
+    entry_ttl: "1" 
+    expiration_interval: "1" 
+    max_entries: "9999" 
+    entry_ttl_unit: "MINUTES"

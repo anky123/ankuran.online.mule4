@@ -1,0 +1,41 @@
+<section class="vh-100 hh-100 bg-image"
+   style="background-image: url('./../../../assets/images/background.jpg');">
+   <div class="mask d-flex align-items-center h-100">
+      <div class="container h-100">
+         <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+               <div class="card" style="border-radius: 15px;">
+                  <div class="card-body p-6">
+                     <h2 class="text-uppercase text-center mb-5">Create an incident</h2>
+                     <form [formGroup]="incidentForm">
+                        <div class="form-outline mb-4">
+                           <input type="text" formControlName="short_description" class="form-control form-control-sm" [(ngModel)]="incident.short_description" [ngClass]="{ 'is-invalid': submitted && f['short_description'].errors }"/>
+                           <label class="form-label" for="form3Example4cg">Description</label>
+                           <div *ngIf="submitted && f['short_description'].errors" class="invalid-feedback">
+                              <div *ngIf="f['short_description'].errors['required']">Description is required</div>
+                              <div *ngIf="f['short_description'].errors['minlength']">Name must be at least 10 characters</div>
+                           </div>
+                        </div>
+                        <div class="form-outline mb-4">
+                           <select formControlName="urgency" class="select form-control form-control-sm" [(ngModel)]="incident.urgency" [ngClass]="{ 'is-invalid': submitted && f['urgency'].errors }">
+                           <option value="1 - High">1 - High</option>
+                           <option value="2 - Medium">2 - Medium</option>
+                           <option value="3 - Low">3 - Low</option>
+                           </select>
+                           <label class="form-label" for="form3Example4cg">Urgency</label>
+                           <div *ngIf="submitted && f['urgency'].errors" class="invalid-feedback">
+                              <div *ngIf="f['urgency'].errors['required']">Urgency is required</div>
+                           </div>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                           <button type="button" type="reset" (click)="onReset()" class="btn btn-light btn-sm mat-elevation-z8">Reset all</button>
+                           <button type="button" type="submit" (click)="onSubmit()" class="btn btn-success btn-block btn-sm gradient-custom-4 text-body mat-elevation-z8">Create incident</button>
+                        </div>
+                     </form>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>

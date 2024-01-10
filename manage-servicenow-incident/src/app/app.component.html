@@ -1,0 +1,14 @@
+<nav class="navbar navbar-expand navbar-light bg-light" *ngIf="user">
+   <div class="navbar-nav">
+      <a class="navbar-brand" routerLink="/">
+      <img src="../assets/images/logo.jpg" alt="An image" width="30" height="24">
+      </a>
+      <a class="nav-item nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+      <a class="nav-item nav-link" routerLink="/admin" routerLinkActive="active" *ngIf="isAdmin">Admin</a>
+      <button class="btn btn-link nav-item nav-link" (click)="logout()">Logout</button>
+   </div>
+</nav>
+<!-- main app container -->
+<div class="container">
+   <router-outlet></router-outlet>
+</div>

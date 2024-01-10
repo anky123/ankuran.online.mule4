@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:servicenow="http://www.mulesoft.org/schema/mule/servicenow" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd 
+http://www.mulesoft.org/schema/mule/servicenow http://www.mulesoft.org/schema/mule/servicenow/current/mule-servicenow.xsd">
+    <flow name="incident-app-main">
+        <http:listener config-ref="incident-app-httpListenerConfig" path="${secure::http.listener.basepath}" responseStreamingMode="ALWAYS">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:router config-ref="incident-app-config" />
+        <error-handler ref="globalErrorHandler" />
+    </flow>
+    <flow name="get:\health:incident-app-config">
+    	<logger level="INFO" doc:name="INFO : Flow Start Logger" doc:id="25df453e-3299-4254-9775-0bcf97edf977" message="#[&quot;===== Start of &quot; ++ flow.name ++ &quot; flow =====&quot;]"/>
+        <ee:transform doc:name="Prepare Response">
+            <ee:message>
+                <ee:set-payload resource="dwl/health.dwl" />
+            </ee:message>
+        </ee:transform>
+    	<logger level="INFO" doc:name="INFO : Flow End Logger" doc:id="7ca5451d-3ce0-4c52-a358-92cded29dfd8" message="#[&quot;===== End of &quot; ++ flow.name ++ &quot; flow =====&quot;]" />
+    </flow>
+    <flow name="get:\incident:incident-app-config">
+        <logger level="INFO" doc:name="INFO : Flow Start Logger" doc:id="e73c5203-a3d8-44a4-a227-82c174a964bf" message="#[&quot;===== Start of &quot; ++ flow.name ++ &quot; flow =====&quot;]"/>
+        <choice doc:name="Choice for REST or SOAP" doc:id="9f3cd017-62d6-4759-8ef9-03ffb17edff5" >
+			<when expression="#[attributes.queryParams.api_type == 'SOAP']">
+				<flow-ref doc:name="get-soap-incident" doc:id="a251447c-26aa-48e6-815a-5cd60a31f2b0" name="get-soap-incident"/>
+				<ee:transform doc:name="Prepare response" doc:id="6a2d72ec-e791-4067-9c3c-0bea87720b5a" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload.body.getResponse]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</when>
+			<otherwise>
+				<flow-ref doc:name="get-rest-incident" doc:id="9e9b0ebb-74a3-4334-8daa-6f7670b55b47" name="get-rest-incident"/>
+				<ee:transform doc:name="Prepare response" doc:id="9aaeb3fd-1e9e-43f1-8b74-55cf9aa83a29" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+fun formatDate(date: String) = (date ++ 'Z') replace " " with("T")
+---
+{
+    incident : vars.incidentResponse.result,
+    all_comments : (vars.commentResponse.result map ((comment)-> comment update {
+        case createdOn at .sys_created_on -> formatDate(createdOn)
+     	}) orderBy -($.sys_created_on as DateTime as Number {unit: "milliseconds"})) filter ((item, index) -> item.element == "comments")
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>	
+			</otherwise>
+		</choice>
+    	<logger level="INFO" doc:name="INFO : Flow End Logger" doc:id="5998280f-a672-43b4-b9b5-0d983ab254e6" message="#[&quot;===== End of &quot; ++ flow.name ++ &quot; flow =====&quot;]" />
+    </flow>
+    <flow name="post:\incident:incident-app-config">
+        <logger level="INFO" doc:name="INFO : Flow Start Logger" doc:id="c0fdba85-f345-4db2-ad62-4cc170c219f3" message="#[&quot;===== Start of &quot; ++ flow.name ++ &quot; flow =====&quot;]"/>
+        <flow-ref doc:name="create-incident" doc:id="0f949622-a042-43ed-9d90-7456f16498d7" name="create-incident"/>
+        <ee:transform doc:name="Prepare response" doc:id="dfd01078-549a-4292-b8d3-277cb3baed47" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload.body.insertResponse]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+   		<logger level="INFO" doc:name="INFO : Flow End Logger" doc:id="1b7ee0ea-63f9-4cd0-bc1c-c035405cb0fc" message="#[&quot;===== End of &quot; ++ flow.name ++ &quot; flow =====&quot;]" />
+    </flow>
+    <flow name="post:\incident\upload-file\(sys_id):incident-app-config">
+        <logger level="INFO" doc:name="INFO : Flow Start Logger" doc:id="e8eba4dd-ba71-4ef3-a418-fb31130e19b1" message="#[&quot;===== Start of &quot; ++ flow.name ++ &quot; flow =====&quot;]"/>
+        <flow-ref doc:name="incident-upload-file" doc:id="1c4584af-6d0f-44d3-bc29-1a7611ffb44c" name="incident-upload-file"/>
+        <ee:transform doc:name="Prepare response" doc:id="b499930f-1355-4190-a4e9-3e5121c1c48a" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+vars.attachmentResponse.result]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+   		<logger level="INFO" doc:name="INFO : Flow End Logger" doc:id="4d7c3764-c0c5-451c-a1f3-8b914cad743b" message="#[&quot;===== End of &quot; ++ flow.name ++ &quot; flow =====&quot;]" />
+    </flow>
+    <flow name="put:\incident:incident-app-config">
+      	<logger level="INFO" doc:name="INFO : Flow Start Logger" doc:id="44089409-9dad-4d9a-b48b-e1ad463851b0" message="#[&quot;===== Start of &quot; ++ flow.name ++ &quot; flow =====&quot;]"/>
+        <flow-ref doc:name="update-incident" doc:id="e6e9ef1d-b55c-4b31-88ae-d4e0fe35941c" name="update-incident"/>
+        <ee:transform doc:name="Prepare response" doc:id="0544a05f-34e3-40f3-aeea-b791dc9eb3d9" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload.body.updateResponse]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+    	<logger level="INFO" doc:name="INFO : Flow End Logger" doc:id="12fb2184-d1a2-4184-85f5-b3d0bdf8cc36" message="#[&quot;===== End of &quot; ++ flow.name ++ &quot; flow =====&quot;]" />
+    </flow>
+    <flow name="get:\incidents:incident-app-config">
+       	<logger level="INFO" doc:name="INFO : Flow Start Logger" doc:id="3736877c-2934-45ea-9793-ab83813a115d" message="#[&quot;===== Start of &quot; ++ flow.name ++ &quot; flow =====&quot;]"/>
+        <flow-ref doc:name="get-incidents" doc:id="e6eba889-057a-4c54-8002-af25833be836" name="get-incidents"/>
+		<logger level="INFO" doc:name="INFO : Flow End Logger" doc:id="b1dade70-870c-4297-9eef-9cdbf6ccbfb0" message="#[&quot;===== End of &quot; ++ flow.name ++ &quot; flow =====&quot;]" />
+    </flow>
+</mule>

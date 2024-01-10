@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:servicenow="http://www.mulesoft.org/schema/mule/servicenow"
+	xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
+	xmlns:os="http://www.mulesoft.org/schema/mule/os"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
+	xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" 
+	xmlns:sftp="http://www.mulesoft.org/schema/mule/sftp"
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd 
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd 
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd 
+http://www.mulesoft.org/schema/mule/sftp http://www.mulesoft.org/schema/mule/sftp/current/mule-sftp.xsd 
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/servicenow http://www.mulesoft.org/schema/mule/servicenow/current/mule-servicenow.xsd">
+	<configuration doc:name="Configuration" doc:id="2e4284b0-e473-486e-b002-b849e045197d" defaultErrorHandler-ref="globalErrorHandler" />
+	<http:listener-config name="incident-app-httpListenerConfig">
+        <http:listener-connection host="0.0.0.0" port="${secure::http.listener.private_port}" readTimeout="${secure::http.listener.read_timeout}"/>
+    </http:listener-config>
+    <!-- <apikit:config name="incident-app-config" api="incident-app.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" /> -->
+    <apikit:config name="incident-app-config" api="resource::3c51f983-0987-44e2-b3a7-a10a94532588:incident-app:1.0.0:raml:zip:incident-app.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+   	<api-gateway:autodiscovery apiId="${secure::api.id}" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="8eddae31-ee70-4033-b906-2d713090e6f7" flowRef="incident-app-main" />
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="a864495e-d5ca-4e13-a46b-b5eb7ab2b982" file="properties\incident-app-${mule.env}.yaml" key="${secure.properties.key}" />
+	<servicenow:config name="ServiceNow_Config" doc:name="ServiceNow Config" doc:id="1af0e739-d0d5-4a35-a71a-3125151b564d" >
+		<servicenow:basic-connection username="${secure::service.username}" password="${secure::service.password}" serviceAddress="${secure::service.address}" />
+	</servicenow:config>
+	<http:request-config name="Servicenow_HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="d0550bdf-f028-4438-a3a9-f94d50b16ee5" basePath="${secure::http.requester.servicenow.basepath}" requestStreamingMode="ALWAYS">
+		<http:request-connection protocol="HTTPS" host="${secure::http.requester.servicenow.host}" port="${secure::http.requester.servicenow.port}" >
+			<http:authentication >
+				<http:basic-authentication username="${secure::service.username}" password="${secure::service.password}" />
+			</http:authentication>
+		</http:request-connection>
+	</http:request-config>
+	<ee:object-store-caching-strategy name="Incidents_Caching_Strategy" doc:name="Incidents Caching Strategy" doc:id="d4b220d8-d260-42b6-b43a-1e2ac71894e0">
+		<os:private-object-store entryTtl="${secure::cache.entry_ttl}" expirationInterval="${secure::cache.expiration_interval}" maxEntries="${secure::cache.max_entries}"/>
+	</ee:object-store-caching-strategy>
+</mule>

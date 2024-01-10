@@ -1,0 +1,189 @@
+{
+	"info": {
+		"_postman_id": "76a87ae2-6c70-4d01-893c-40ca01de8253",
+		"name": "Incident-app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "health",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "client_id",
+						"value": "{{client_id}}",
+						"type": "text"
+					},
+					{
+						"key": "client_secret",
+						"value": "{{client_secret}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_path}}/incident-app/v1/health",
+					"host": [
+						"{{base_path}}"
+					],
+					"path": [
+						"incident-app",
+						"v1",
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "incident",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "client_id",
+						"value": "{{client_id}}",
+						"type": "text"
+					},
+					{
+						"key": "client_secret",
+						"value": "{{client_secret}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"short_description\": \"Mulesoft Test Incident 1\",\n    \"urgency\" : \"3\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_path}}/incident-app/v1/incident",
+					"host": [
+						"{{base_path}}"
+					],
+					"path": [
+						"incident-app",
+						"v1",
+						"incident"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "incident",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "client_id",
+						"value": "{{client_id}}",
+						"type": "text"
+					},
+					{
+						"key": "client_secret",
+						"value": "{{client_secret}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"short_description\": \"Test Incident 2\",\n    \"sys_id\": \"08f7860fdb1dbd10469fab1c139619ef\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_path}}/incident-app/v1/incident",
+					"host": [
+						"{{base_path}}"
+					],
+					"path": [
+						"incident-app",
+						"v1",
+						"incident"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "incident",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "client_id",
+						"value": "{{client_id}}",
+						"type": "text"
+					},
+					{
+						"key": "client_secret",
+						"value": "{{client_secret}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_path}}/incident-app/v1/incident?sys_id=ac5163dbdb553150469fab1c139619f6",
+					"host": [
+						"{{base_path}}"
+					],
+					"path": [
+						"incident-app",
+						"v1",
+						"incident"
+					],
+					"query": [
+						{
+							"key": "sys_id",
+							"value": "ac5163dbdb553150469fab1c139619f6"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "incidents",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "client_id",
+						"value": "{{client_id}}",
+						"type": "text"
+					},
+					{
+						"key": "client_secret",
+						"value": "{{client_secret}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_path}}/incident-app/v1/incidents?sys_created_by=mulesoft.int",
+					"host": [
+						"{{base_path}}"
+					],
+					"path": [
+						"incident-app",
+						"v1",
+						"incidents"
+					],
+					"query": [
+						{
+							"key": "sys_created_by",
+							"value": "mulesoft.int"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

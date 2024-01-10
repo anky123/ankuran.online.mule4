@@ -1,0 +1,121 @@
+<div>
+   <h2 class="modal-title text-uppercase text-center mb-5">Update Incident</h2>
+</div>
+<div class="mat-elevation-z8">
+   <div class="modal-body" >
+      <div class="card-body">
+         <form [formGroup]="updateForm">
+            <div class="form-group mb-4" *ngIf="incident.number != null && incident.number != ''">
+               <label for="form3Example4cg">Incident Id</label>
+               <input type="text" class="form-control form-control-sm" value="{{incident.number}}" disabled />
+            </div>
+            <div class="form-group mb-4" *ngIf="incident.short_description != null && incident.short_description != ''">
+               <label for="form3Example4cg">Short Description</label>
+               <input type="text" class="form-control form-control-sm" value="{{incident.short_description}}" disabled />
+            </div>
+            <div class="form-group mb-4">
+               <label for="form3Example4cg">Description</label>
+               <input type="text" formControlName="description" class="form-control form-control-sm" [(ngModel)]="incident.description" [ngClass]="{ 'is-invalid': submitted && f['description'].errors }" value="{{incident.description}}"/>
+               <div *ngIf="submitted && f['description'].errors" class="invalid-feedback">
+                  <div *ngIf="f['description'].errors['required']">Description is required</div>
+                  <div *ngIf="f['description'].errors['minlength']">Name must be at least 10 characters</div>
+               </div>
+            </div>
+            <div class="form-group mb-4">
+               <label  for="form3Example4cg">Impact</label>
+               <select formControlName="impact" class="select form-control form-control-sm" [(ngModel)]="incident.impact" [ngClass]="{ 'is-invalid': submitted && f['impact'].errors }">
+<!--               <option value="{{incident.impact}}" selected>{{incident.impact}}</option>-->
+               <option value="1 - High">1 - High</option>
+               <option value="2 - Medium">2 - Medium</option>
+               <option value="3 - Low">3 - Low</option>
+               </select>
+               <div *ngIf="submitted && f['impact'].errors" class="invalid-feedback">
+                  <div *ngIf="f['impact'].errors['required']">Urgency is required</div>
+               </div>
+            </div>
+            <div class="form-group mb-4">
+               <label  for="form3Example4cg">Urgency</label>
+               <select formControlName="urgency" class="select form-control form-control-sm" [(ngModel)]="incident.urgency" [ngClass]="{ 'is-invalid': submitted && f['urgency'].errors }">
+<!--               <option value="{{incident.urgency}}" selected>{{incident.urgency}}</option>-->
+               <option value="1 - High">1 - High</option>
+               <option value="2 - Medium">2 - Medium</option>
+               <option value="3 - Low">3 - Low</option>
+               </select>
+               <div *ngIf="submitted && f['urgency'].errors" class="invalid-feedback">
+                  <div *ngIf="f['urgency'].errors['required']">Urgency is required</div>
+               </div>
+            </div>
+            <div class="form-group mb-4" *ngIf="incident.priority != null && incident.priority != ''">
+               <label for="form3Example4cg">Priority</label>
+               <input type="text" class="form-control form-control-sm" value="{{incident.priority}}" disabled />
+            </div>
+            <div class="form-group mb-4" *ngIf="incident.incident_state == 'New' || incident.incident_state == 'In Progress'">
+               <label for="form3Example4cg">Incident Status</label>
+               <select formControlName="incident_state" class="select form-control form-control-sm" [(ngModel)]="incident.incident_state" [ngClass]="{ 'is-invalid': submitted && f['incident_state'].errors }">
+               <option value="{{incident.incident_state}}" selected>{{incident.incident_state}}</option>
+               <option value="Close">Close</option>
+               <option value="Canceled">Canceled</option>
+               </select>
+               <div *ngIf="submitted && f['incident_state'].errors" class="invalid-feedback">
+                  <div *ngIf="f['incident_state'].errors['required']">Incident status is required</div>
+               </div>
+            </div>
+            <div class="form-group mb-4" *ngIf="incident.incident_state != 'New' && incident.incident_state != 'In Progress'">
+               <label for="form3Example4cg">Incident Status</label>
+               <input type="text" class="form-control form-control-sm" value="{{incident.incident_state}}" disabled />
+            </div>
+            <div class="form-group mb-4" *ngIf="incident.sys_created_on != null && incident.sys_created_on != ''">
+               <label for="form3Example4cg">Created On</label>
+               <input type="text" class="form-control form-control-sm" value="{{incident.sys_created_on}}" disabled />
+            </div>
+            <div class="form-group mb-4" *ngIf="incident.sys_created_by != null && incident.sys_created_by != ''">
+               <label class="form-label" for="form3Example4cg">Created By</label>
+               <input type="text" class="form-control form-control-sm" value="{{incident.sys_created_by}}" disabled />
+            </div>
+            <div class="form-group mb-4" *ngIf="incident.sys_updated_on != null && incident.sys_updated_on != ''">
+               <label class="form-label" for="form3Example4cg">Last Updated On</label>
+               <input type="text" class="form-control form-control-sm" value="{{incident.sys_updated_on}}" disabled />
+            </div>
+            <div class="form-group mb-4" *ngIf="incident.sys_updated_by != null && incident.sys_updated_by != ''">
+               <label class="form-label" for="form3Example4cg">Last Updated By</label>
+               <input type="text" class="form-control form-control-sm" value="{{incident.sys_updated_by}}" disabled />
+            </div>
+            <div class="form-group mb-4" *ngIf="incident.assigned_to != null && incident.assigned_to != ''">
+               <label class="form-label" for="form3Example4cg">Ticket Assigned To</label>
+               <input type="text" class="form-control form-control-sm" value="{{incident.assigned_to}}" disabled />
+            </div>
+            <div class="form-group mb-4" *ngIf="incident.close_code != null && incident.close_code != ''">
+               <label class="form-label" for="form3Example4cg">Close Code</label>
+               <input type="text" class="form-control form-control-sm" value="{{incident.close_code}}" disabled />
+            </div>
+            <div class="form-group mb-4" *ngIf="incident.close_notes != null && incident.close_notes != ''">
+               <label class="form-label" for="form3Example4cg">Close Notes</label>
+               <input type="text" class="form-control form-control-sm" value="{{incident.close_notes}}" disabled />
+            </div>
+            <div class="form-group mb-4" *ngIf="incident.closed_at != null && incident.closed_at != ''">
+               <label class="form-label" for="form3Example4cg">Closed At</label>
+               <input type="text" class="form-control form-control-sm" value="{{incident.closed_at}}" disabled />
+            </div>
+            <div class="form-group mb-4" *ngIf="incident.closed_by != null && incident.closed_by != ''">
+               <label class="form-label" for="form3Example4cg">Closed By</label>
+               <input type="text" class="form-control form-control-sm" value="{{incident.closed_by}}" disabled />
+            </div>
+            <div class="form-group mb-4" >
+               <label for="form3Example4cg">Comment</label>
+               <input type="text" formControlName="comment" class="form-control form-control-sm" [(ngModel)]="incident.comment" [ngClass]="{ 'is-invalid': submitted && f['comment'].errors }"/>
+               <div *ngIf="submitted && f['comment'].errors" class="invalid-feedback">
+                  <div *ngIf="f['comment'].errors['required']">Comment is required</div>
+                  <div *ngIf="f['comment'].errors['minlength']">Name must be at least 10 characters</div>
+               </div>
+            </div>
+            <div *ngIf="incident.incident_state == 'New' || incident.incident_state == 'In Progress'">
+                <button type="button" (click)="uploadAttachment(incident)" class="btn btn-light btn-sm mat-elevation-z8">Upload attachment</button> 
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
+<div class="modal-footer">
+   <button type="button" type="submit" (click)="updateIncident(incident)" class="btn btn-primary btn btn-success btn-block btn-sm gradient-custom-4 text-body col mat-elevation-z8">Update</button>
+   <button type="button" (click)="activeModal.close('Close click')" class="btn btn-primary btn btn-success btn-block btn-sm gradient-custom-4 text-body col mat-elevation-z8">Cancel</button>
+</div>

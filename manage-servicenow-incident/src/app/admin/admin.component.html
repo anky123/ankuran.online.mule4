@@ -1,0 +1,69 @@
+<section class="vh-100 bg-image"
+   style="background-image: url('./../../../assets/images/background.jpg');">
+   <div class="mask d-flex align-items-center h-100 table-wrapper-scroll-y incidents-scrollbar">
+      <div class="container h-100 ">
+         <div class="row d-flex justify-content-center align-items-center h-100">
+            <div *ngIf="incidentList.length > 0">
+               <table class="table table-hover mt-1 mat-elevation-z8" matSort (matSortChange)="sortData($event)">
+                  <thead class="bg-light sticky-top">
+                     <tr>
+                        <th mat-sort-header="number">IncidentNumber</th>
+                        <th mat-sort-header="short_description">Description</th>
+                        <th mat-sort-header="urgency">Urgency</th>
+                        <th mat-sort-header="incident_state">Status</th>
+                        <th mat-sort-header="sys_created_on">CreatedOn</th>
+                        <th mat-sort-header="sys_updated_on">UpdatedOn</th>
+                        <th>Actions</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr *ngFor="let incident of incidentList">
+                        <td>
+                           <p class="text-muted mb-0">{{incident.number}}</p>
+                        </td>
+                        <td>
+                           <p class="text-muted mb-0">{{incident.short_description}}</p>
+                        </td>
+                        <td>
+                           <p class="text-muted mb-0" *ngIf="incident.urgency == '1'">1 - High</p>
+                           <p class="text-muted mb-0" *ngIf="incident.urgency == '2'">2 - Medium</p>
+                           <p class="text-muted mb-0" *ngIf="incident.urgency == '3'">3 - Low</p>
+                        </td>
+                        <td>
+                           <p class="text-muted mb-0" *ngIf="incident.incident_state == '1'">New</p>
+                           <p class="text-muted mb-0" *ngIf="incident.incident_state == '2'">In Progress</p>
+                           <p class="text-muted mb-0" *ngIf="incident.incident_state == '3'">On Hold</p>
+                           <p class="text-muted mb-0" *ngIf="incident.incident_state == '4'">Resolved</p>
+                           <p class="text-muted mb-0" *ngIf="incident.incident_state == '7'">Closed</p>
+                           <p class="text-muted mb-0" *ngIf="incident.incident_state == '8'">Canceled</p>
+                        </td>
+                        <td>
+                           <p class="text-muted mb-0">{{incident.sys_created_on}}</p>
+                        </td>
+                        <td>
+                           <p class="text-muted mb-0">{{incident.sys_updated_on}}</p>
+                        </td>
+                        <td>
+                           <button type="button" type="submit" (click)="viewIncident(incident)" class="btn btn-success btn-block btn-sm gradient-custom-4 text-body mat-elevation-z8">View incident</button>
+                           <button type="button" type="submit" (click)="updateIncident(incident)" class="btn btn-success btn-block btn-sm gradient-custom-4 text-body mat-elevation-z8">Update incident</button>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+<!--
+   <form [formGroup]="updateForm">
+       <div class="row">
+           <input type="text" formControlName="searchId" class="form-control form-group form-control-lg col" [ngClass]="{ 'is-invalid': searched && g['searchId'].errors }"/>
+           <button type="button" type="submit" (click)="searchId()" class="btn btn-primary btn btn-success btn-block btn-lg gradient-custom-4 text-body col">Search</button>
+           <div *ngIf="searched && g['searchId'].errors" class="invalid-feedback">
+               <div *ngIf="g['searchId'].errors['required']">Serach id is required</div>
+               <div *ngIf="g['searchId'].errors['minlength']">Id must be at least 10 characters</div>
+           </div>
+       </div>
+   </form>
+   -->

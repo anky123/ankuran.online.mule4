@@ -1,0 +1,15 @@
+<div>
+   <h2 class="modal-title text-uppercase text-center mb-5">Incident details</h2>
+</div>
+<div>
+   <div class="card incident-border">
+      <div class="card-body">
+         <p class="card-text">Incident Id : {{incident.sys_id}}</p>
+         <p class="card-text">short_description: {{incident.short_description}}</p>
+         <p class="card-text">Priority: {{incident.urgency}}</p>
+      </div>
+   </div>
+</div>
+<div class="modal-footer">
+   <button type="button" data-dismiss="modal" (click)="close()" class="btn btn-primary btn btn-success btn-block btn-lg gradient-custom-4 text-body col">Close</button>
+</div>

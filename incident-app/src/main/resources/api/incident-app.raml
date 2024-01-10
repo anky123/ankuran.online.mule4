@@ -1,0 +1,63 @@
+#%RAML 1.0
+title: Incident Interface
+mediaType: 
+  - application/json
+description:  The interface exposes all operations related to servicenow incident management.
+version: v1
+protocols: [ HTTP, HTTPS ]
+baseUri: api/{version}
+
+uses:
+  commonLib: exchange_modules/3090a9d2-5d7f-4ceb-82d2-a57b45356742/common-lib/1.0.0/libraries/health.raml 
+
+traits:
+  client-id-required: !include exchange_modules/3090a9d2-5d7f-4ceb-82d2-a57b45356742/common-lib/1.0.0/traits/client-id.raml
+  error-400: !include /exchange_modules/3090a9d2-5d7f-4ceb-82d2-a57b45356742/common-lib/1.0.0/traits/errors/json/400.raml
+  error-404: !include /exchange_modules/3090a9d2-5d7f-4ceb-82d2-a57b45356742/common-lib/1.0.0/traits/errors/json/404.raml
+  error-500: !include /exchange_modules/3090a9d2-5d7f-4ceb-82d2-a57b45356742/common-lib/1.0.0/traits/errors/json/500.raml
+  get-incident: !include traits/get-incident.raml
+
+/health:
+  type:
+    commonLib.health
+
+/incident:
+  usage: Use this resource to interact with ITSM system 
+  get:
+    is: [client-id-required,get-incident,error-400,error-404,error-500]
+    description: Operation for getting existing incidents information from the ITSM system.
+    responses:
+      200:
+        body:
+          application/json:
+  post:
+    is: [client-id-required,error-400,error-404,error-500]
+    description: Operation for create incident in the ITSM system.
+    responses:
+      201:
+        body:
+          application/json:
+  put:
+    is: [client-id-required,error-400,error-404,error-500]
+    description: Operation for update incident in the ITSM system.
+    responses:
+      201:
+        body:
+          application/json:
+  /upload-file/{sys_id}:
+    post:
+      is: [client-id-required,error-400,error-404,error-500]
+      description: Operation for upload file related to incident
+      responses:
+        201:
+          body:
+            application/json:      
+/incidents:
+  usage: Use this resource to interact with ITSM system 
+  get:
+    is: [client-id-required,error-400,error-404,error-500]
+    description: Operation for getting existing incidents information from the ITSM system.
+    responses:
+      200:
+        body:
+          application/json:

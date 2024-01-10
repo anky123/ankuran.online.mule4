@@ -1,0 +1,16 @@
+#%RAML 1.0 Trait
+    queryParameters:
+      api_type?:
+        description: Fetches the incident for a given sys id.
+        example: REST
+        default: REST
+        type: string
+        enum: [REST, SOAP]
+      sys_id:
+        description: Fetches the incident for a given sys id.
+        type: string
+        required: false
+      number:
+        description: Fetches the incident for a given incident number.
+        type: string
+        required: false

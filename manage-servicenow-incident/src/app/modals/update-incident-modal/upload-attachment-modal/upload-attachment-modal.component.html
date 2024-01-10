@@ -1,0 +1,15 @@
+<form [formGroup]="uploadForm">
+<div>
+   <h2 class="modal-title text-uppercase text-center mb-5">Upload attachment</h2>
+</div>
+<div class="text-center"> 
+    <input class="form-control" type="file" (change)="onChange($event)" formControlName="uploadFile" class="form-control form-control-sm" [(ngModel)]="uploadFile" [ngClass]="{ 'is-invalid': submitted && g['uploadFile'].errors }"> 
+    <div *ngIf="submitted && g['uploadFile'].errors" class="invalid-feedback">Please select a file</div>
+</div> 
+
+<div class="container" *ngIf="loading">Loading ...</div>
+<div class="modal-footer">
+   <button type="button" type="submit" (click)="onUpload()" class="btn btn-primary btn btn-success btn-block btn-sm gradient-custom-4 text-body col mat-elevation-z8">Upload</button>
+   <button type="button" (click)="activeModal.close('Close click')" class="btn btn-primary btn btn-success btn-block btn-sm gradient-custom-4 text-body col mat-elevation-z8">Cancel</button>
+</div>
+</form>
