@@ -1,5 +1,5 @@
 # manage-servicenow-incident
-![integration](https://github.com/firstqa-systems/manage-servicenow-incident/assets/144072711/5b7d35e1-fa16-4363-baa5-0cd1044baf34)
+![angular_mulesoft_servicenow](https://github.com/anky123/ankuran.online.mule4/assets/13630010/5edc718c-62a5-45aa-91e0-a9d816f677ec)
 
 * version 1.0.0
 * AngularJS App to manage the serviceNow incidents
