@@ -1,0 +1,15 @@
+{
+	"configs": [
+		"dynamic-schema-validation.xml"
+	],
+	"redeploymentEnabled": true,
+	"name": "dynamic-schema-validation",
+	"minMuleVersion": "4.3.0",
+	"requiredProduct": "MULE_EE",
+	"secureProperties": [],
+	"bundleDescriptorLoader": {
+		"id": "mule",
+		"attributes": {
+		}
+	}
+}
