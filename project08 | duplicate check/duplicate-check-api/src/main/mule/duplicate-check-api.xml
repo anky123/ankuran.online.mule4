@@ -1,65 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:json="http://www.mulesoft.org/schema/mule/json"
-	xmlns:os="http://www.mulesoft.org/schema/mule/os"
-	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core" 
-	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
-http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd 
-http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd">
-    
-    
-    <http:listener-config name="duplicate-check-httpListenerConfig">
-        <http:listener-connection host="${http.private.host}" port="${http.private.port}" />
-    </http:listener-config>
-    
-    <apikit:config name="duplicate-check-config" api="duplicate-check-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
-    
-    <configuration-properties doc:name="Configuration properties" doc:id="18cff226-2fbc-44ed-8053-420aa52d5165" file="properties/${mule.env}-properties.yaml" />
-	
-	<flow name="duplicate-check-main">
-        <http:listener config-ref="duplicate-check-httpListenerConfig" path="${http.private.path}">
-            <reconnect frequency="${http.private.reconnect.frequency}" count="${http.private.reconnect.attempts}"/>
-			<http:response statusCode="#[vars.httpStatus default 200]">
-                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
-            </http:response>
-            <http:error-response statusCode="#[vars.httpStatus default 500]">
-                <http:body><![CDATA[#[payload]]]></http:body>
-                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
-            </http:error-response>
-        </http:listener>
-        <apikit:router config-ref="duplicate-check-config" />
-    </flow>
-   
-    <flow name="post:\user_register:duplicate-check-config">
-		<flow-ref doc:name="check-duplicate-message" doc:id="f708d25c-923a-43ca-8551-64858be9e982" name="check-duplicate-message"/>
-		<ee:transform doc:name="Store the information successfully" doc:id="313b0077-13ba-4bf9-b0c5-122e4616cb08" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-{
-	"message" : "User details stored successfully."
-}]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
-		<error-handler >
-			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="a52c6ae8-a8f5-4300-aa9a-4a43b45e0d83" type="ANY">
-				<ee:transform doc:name="Prepare Error Payload" doc:id="f0f65cbf-fa19-48fb-ad02-6e63ea1424af" >
-					<ee:message >
-						<ee:set-payload resource="dwl/prepareError.dwl" />
-					</ee:message>
-				</ee:transform>
-			</on-error-propagate>
-		</error-handler>
-    </flow>
-    
-	<sub-flow name="check-duplicate-message" doc:id="1ce86c01-2e24-49b3-bf17-764747a252b8" >
-		<set-variable value='#[%dw 2.0&#10;output application/json&#10;---&#10;write(payload.email,"application/json")]' doc:name="Set email variable" doc:id="4c342f3b-be44-4b10-86a6-949b3717180a" variableName="uniqueEmailCheck" mimeType="application/json"/>
-			<idempotent-message-validator doc:name="Idempotent Message Validator" doc:id="744f1b97-4ef7-4206-acca-1c4cdcaedaa8" idExpression="#[%dw 2.0&#10;    output text/plain&#10;    import dw::Crypto&#10;    ---&#10;    Crypto::hashWith(vars.uniqueEmailCheck as Binary,'SHA-1')]">
-			<os:private-object-store entryTtl="${duplicate_check_os.entry_ttl}" expirationInterval="${duplicate_check_os.expiration_interval}" expirationIntervalUnit="DAYS" entryTtlUnit="DAYS" />
-		</idempotent-message-validator>
-		<remove-variable doc:name="Remove Variable" doc:id="71d94db7-d7bc-4506-b835-419dc59727c5" variableName="uniqueEmailCheck"/>
-			
-	</sub-flow>
-</mule>
