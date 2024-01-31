@@ -1,0 +1,24 @@
+api:
+  version: "v1"
+  id: "19272627"
+  
+http:
+  listener:
+    host: "0.0.0.0"
+    basepath: "/${secure::api.version}/*"
+    private_port: "8081"
+    read_timeout: "30000"
+  requester:
+    sfdc_sys_api:
+      host: "test"
+      basepath: "/test"
+      port: "443"
+      response_timeout: "30000"
+      reconnection_frequency: "3000"
+      connection_idle_timeout: "900000"
+      header:
+        client_id: "test"
+        client_secret: "test"
+      until_successful: 
+        max_retries: "3"
+        millis_between_retries: "300"

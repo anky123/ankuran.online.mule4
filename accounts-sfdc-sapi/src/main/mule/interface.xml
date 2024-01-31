@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
+   	<flow name="accounts-sfdc-sapi-main">
+        <http:listener config-ref="accounts-sfdc-sapi-httpListenerConfig" path="${secure::http.listener.basepath}">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body><![CDATA[#[payload]]]></http:body>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:error-response>
+        </http:listener>
+        <logger level="INFO" doc:name="INFO : MetaData Logger" doc:id="71213e14-1643-4a2f-8b5b-aa28689df6bf" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10; "name": "Meta Data",&#10; "correlationId": attributes.headers."x-correlation-id" default correlationId,&#10; "timeStamp": now() as String,&#10; ("transaction-id": attributes.headers."transaction-id") if attributes.headers."transaction-id" != null,&#10; "flow": flow.name default "",&#10; "message": "Request received from Listener on " ++ attributes.method default "" ++ " method",&#10;}]'/>
+		<apikit:router config-ref="accounts-sfdc-sapi-config" />
+        <error-handler ref="globalErrorHandler" />
+    </flow>
+    
+    <!-- <flow name="get:\health-check:emea-product-eapi-config">
+        <logger level="INFO" doc:name="INFO : Flow Start Logger" doc:id="6bbba84a-8fd3-49f0-855d-e46b78513044" message="#[&quot;===== Start of &quot; ++ flow.name ++ &quot; flow =====&quot;]" />
+        <ee:transform doc:name="Prepare Response">
+            <ee:message>
+                <ee:set-payload resource="dwl/health-check.dwl" />
+            </ee:message>
+        </ee:transform>
+        <logger level="INFO" doc:name="INFO : Flow End Logger" doc:id="4b94b57b-e282-4973-b0d7-9b5398a24869" message="#[&quot;===== End of &quot; ++ flow.name ++ &quot; flow =====&quot;]" />
+    </flow> -->
+    <flow name="post:\accounts:application\json:accounts-sfdc-sapi-config">
+        <logger level="INFO" doc:name="INFO : Flow Start Logger" doc:id="6b70cf63-c681-489b-80c1-23dc98f5d9df" message="#[&quot;===== Start of &quot; ++ flow.name ++ &quot; flow =====&quot;]" />
+        <flow-ref name="create-account" doc:name="create-account"/>
+        <logger level="INFO" doc:name="INFO : Flow End Logger" doc:id="4b94b57b-e282-4973-b0d7-9b5398a24869" message="#[&quot;===== End of &quot; ++ flow.name ++ &quot; flow =====&quot;]" />
+    </flow>
+    <flow name="put:\accounts\(accountId):application\json:accounts-sfdc-sapi-config">
+        <logger level="INFO" doc:name="INFO : Flow Start Logger" doc:id="6b70cf63-c681-489b-80c1-23dc98f5d9df" message="#[&quot;===== Start of &quot; ++ flow.name ++ &quot; flow =====&quot;]" />
+        <set-variable value="#[attributes.uriParams.'accountId']" doc:name="Set accountId" doc:id="6ecda68a-01db-4413-96a1-2f362692a190" variableName="accountId"/>
+        <flow-ref name="update-account" doc:name="update-account"/>
+        <remove-variable doc:name="Remove accountId" doc:id="a29d1446-8df5-4114-b3be-6635bcd9a1a7" variableName="accountId"/>
+        <logger level="INFO" doc:name="INFO : Flow End Logger" doc:id="4b94b57b-e282-4973-b0d7-9b5398a24869" message="#[&quot;===== End of &quot; ++ flow.name ++ &quot; flow =====&quot;]" />
+    </flow>
+    <flow name="get:\accounts\(accountId):accounts-sfdc-sapi-config">
+        <logger level="INFO" doc:name="INFO : Flow Start Logger" doc:id="6b70cf63-c681-489b-80c1-23dc98f5d9df" message="#[&quot;===== Start of &quot; ++ flow.name ++ &quot; flow =====&quot;]" />
+        <set-variable value="#[attributes.uriParams.'accountId']" doc:name="Set accountId" doc:id="6ecda68a-01db-4413-96a1-2f362692a190" variableName="accountId"/>
+		<flow-ref name="get-account" doc:name="get-account"/>
+        <remove-variable doc:name="Remove accountId" doc:id="a29d1446-8df5-4114-b3be-6635bcd9a1a7" variableName="accountId"/>
+		<logger level="INFO" doc:name="INFO : Flow End Logger" doc:id="4b94b57b-e282-4973-b0d7-9b5398a24869" message="#[&quot;===== End of &quot; ++ flow.name ++ &quot; flow =====&quot;]" />
+    </flow>
+    <flow name="delete:\accounts\(accountId):accounts-sfdc-sapi-config">
+        <logger level="INFO" doc:name="INFO : Flow Start Logger" doc:id="6b70cf63-c681-489b-80c1-23dc98f5d9df" message="#[&quot;===== Start of &quot; ++ flow.name ++ &quot; flow =====&quot;]" />
+        <set-variable value="#[attributes.uriParams.'accountId']" doc:name="Set accountId" doc:id="6ecda68a-01db-4413-96a1-2f362692a190" variableName="accountId"/>
+        <flow-ref name="delete-account" doc:name="delete-account"/>
+        <remove-variable doc:name="Remove accountId" doc:id="a29d1446-8df5-4114-b3be-6635bcd9a1a7" variableName="accountId"/>
+        <logger level="INFO" doc:name="INFO : Flow End Logger" doc:id="4b94b57b-e282-4973-b0d7-9b5398a24869" message="#[&quot;===== End of &quot; ++ flow.name ++ &quot; flow =====&quot;]" />
+    </flow>
+</mule>

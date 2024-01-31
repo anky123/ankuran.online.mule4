@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<sub-flow name="initiate-create-account" doc:id="a2e406fe-32b1-4597-a6b0-1f294cb44b23" >
+		<logger level="DEBUG" doc:name="DEBUG : Flow Start Logger" doc:id="30c39831-908e-47e3-bc04-8ea64ae26e15" message='#["===== Before HTTP request in " ++ flow.name ++ " flow ====="]'/>
+		<until-successful maxRetries="${secure::http.requester.sfdc_sys_api.until_successful.max_retries}" millisBetweenRetries="${secure::http.requester.sfdc_sys_api.until_successful.millis_between_retries}" doc:name="Until Successful" doc:id="08ca567d-783a-4df6-8973-d0be99e48aa8" >
+			<http:request method="POST" doc:name="Request to system api" doc:id="52384f97-346f-4ed7-9416-41838f5cde53" config-ref="ACCOUNTS_SFDC_SAPI_HTTP_Request_configuration" path="#['']" responseTimeout="${secure::http.requester.sfdc_sys_api.response_timeout}">
+				<reconnect frequency="${secure::http.requester.sfdc_sys_api.reconnection_frequency}"/>
+				<http:headers ><![CDATA[#[output application/java
+---
+{
+	"transaction-id" : correlationId,
+	"client_secret" : Mule::p('secure::http.requester.sfdc_sys_api.header.client_secret'),
+	"client_id" : Mule::p('secure::http.requester.sfdc_sys_api.header.client_id')
+}]]]></http:headers>
+				<http:response-validator >
+					<http:success-status-code-validator values="201" />
+				</http:response-validator>
+			</http:request>
+		</until-successful>
+		<logger level="DEBUG" doc:name="DEBUG : create account response" doc:id="db6d4530-7bea-4386-aed9-dd69022fe115" message='#[payload]'/>
+		<logger level="DEBUG" doc:name="DEBUG : Flow End Logger" doc:id="ece82a56-9ad8-4ae6-8f5b-aa4db5246564" message='#["===== After HTTP request in " ++ flow.name ++ " flow ====="]'/>
+	</sub-flow>
+	<sub-flow name="initiate-update-account" doc:id="a2e406fe-32b1-4597-a6b0-1f294cb44b23" >
+		<logger level="DEBUG" doc:name="DEBUG : Flow Start Logger" doc:id="04e1f991-3f9a-41e1-b123-1c9ac0adbde7" message='#["===== Before HTTP request in " ++ flow.name ++ " flow ====="]'/>
+		<until-successful maxRetries="${secure::http.requester.sfdc_sys_api.until_successful.max_retries}" millisBetweenRetries="${secure::http.requester.sfdc_sys_api.until_successful.millis_between_retries}" doc:name="Until Successful" doc:id="08ca567d-783a-4df6-8973-d0be99e48aa8" >
+			<http:request method="PUT" doc:name="Request to system api" doc:id="52384f97-346f-4ed7-9416-41838f5cde53" config-ref="ACCOUNTS_SFDC_SAPI_HTTP_Request_configuration" path="#['/' ++ attributes.uriParams.'accountId']" responseTimeout="${secure::http.requester.sfdc_sys_api.response_timeout}">
+				<reconnect frequency="${secure::http.requester.sfdc_sys_api.reconnection_frequency}"/>
+				<http:headers ><![CDATA[#[output application/java
+---
+{
+	"transaction-id" : correlationId,
+	"client_secret" : Mule::p('secure::http.requester.sfdc_sys_api.header.client_secret'),
+	"client_id" : Mule::p('secure::http.requester.sfdc_sys_api.header.client_id')
+}]]]></http:headers>
+				<http:response-validator >
+					<http:success-status-code-validator values="201" />
+				</http:response-validator>
+			</http:request>
+		</until-successful>
+		<logger level="DEBUG" doc:name="DEBUG : update account response" doc:id="db6d4530-7bea-4386-aed9-dd69022fe115" message='#[payload]'/>
+		<logger level="DEBUG" doc:name="DEBUG : Flow End Logger" doc:id="ece82a56-9ad8-4ae6-8f5b-aa4db5246564" message='#["===== After HTTP request in " ++ flow.name ++ " flow ====="]'/>
+	</sub-flow>
+	<sub-flow name="initiate-get-account" doc:id="eee0997c-7427-4292-8cdc-ea7fc5882b10" >
+		<logger level="DEBUG" doc:name="DEBUG : Flow Start Logger" doc:id="04e1f991-3f9a-41e1-b123-1c9ac0adbde7" message='#["===== Before HTTP request in " ++ flow.name ++ " flow ====="]'/>
+		<until-successful maxRetries="${secure::http.requester.sfdc_sys_api.until_successful.max_retries}" millisBetweenRetries="${secure::http.requester.sfdc_sys_api.until_successful.millis_between_retries}" doc:name="Until Successful" doc:id="08ca567d-783a-4df6-8973-d0be99e48aa8" >
+			<http:request method="GET" doc:name="Request to system api" doc:id="52384f97-346f-4ed7-9416-41838f5cde53" config-ref="ACCOUNTS_SFDC_SAPI_HTTP_Request_configuration" path="#['/' ++ attributes.uriParams.'accountId']" responseTimeout="${secure::http.requester.sfdc_sys_api.response_timeout}">
+				<reconnect frequency="${secure::http.requester.sfdc_sys_api.reconnection_frequency}"/>
+				<http:headers ><![CDATA[#[output application/java
+---
+{
+	"transaction-id" : correlationId,
+	"client_secret" : Mule::p('secure::http.requester.sfdc_sys_api.header.client_secret'),
+	"client_id" : Mule::p('secure::http.requester.sfdc_sys_api.header.client_id')
+}]]]></http:headers>
+				<http:response-validator >
+					<http:success-status-code-validator values="200" />
+				</http:response-validator>
+			</http:request>
+		</until-successful>
+		<logger level="DEBUG" doc:name="DEBUG : Products Response" doc:id="db6d4530-7bea-4386-aed9-dd69022fe115" message='#[payload]'/>
+		<logger level="DEBUG" doc:name="DEBUG : Flow End Logger" doc:id="ece82a56-9ad8-4ae6-8f5b-aa4db5246564" message='#["===== After HTTP request in " ++ flow.name ++ " flow ====="]'/>
+	</sub-flow>
+	<sub-flow name="initiate-delete-account" doc:id="3e956c02-f292-4d26-aede-fea6f67042c7" >
+		<logger level="DEBUG" doc:name="DEBUG : Flow Start Logger" doc:id="04e1f991-3f9a-41e1-b123-1c9ac0adbde7" message='#["===== Before HTTP request in " ++ flow.name ++ " flow ====="]'/>
+		<until-successful maxRetries="${secure::http.requester.sfdc_sys_api.until_successful.max_retries}" millisBetweenRetries="${secure::http.requester.sfdc_sys_api.until_successful.millis_between_retries}" doc:name="Until Successful" doc:id="08ca567d-783a-4df6-8973-d0be99e48aa8" >
+			<http:request method="DELETE" doc:name="Request to system api" doc:id="52384f97-346f-4ed7-9416-41838f5cde53" config-ref="ACCOUNTS_SFDC_SAPI_HTTP_Request_configuration" path="#['/' ++ attributes.uriParams.'accountId']" responseTimeout="${secure::http.requester.sfdc_sys_api.response_timeout}">
+				<reconnect frequency="${secure::http.requester.sfdc_sys_api.reconnection_frequency}"/>
+				<http:headers ><![CDATA[#[output application/java
+---
+{
+	"transaction-id" : correlationId,
+	"client_secret" : Mule::p('secure::http.requester.sfdc_sys_api.header.client_secret'),
+	"client_id" : Mule::p('secure::http.requester.sfdc_sys_api.header.client_id')
+}]]]></http:headers>
+				<http:response-validator >
+					<http:success-status-code-validator values="200" />
+				</http:response-validator>
+			</http:request>
+		</until-successful>
+		<logger level="DEBUG" doc:name="DEBUG : delete account response" doc:id="db6d4530-7bea-4386-aed9-dd69022fe115" message='#[payload]'/>
+		<logger level="DEBUG" doc:name="DEBUG : Flow End Logger" doc:id="ece82a56-9ad8-4ae6-8f5b-aa4db5246564" message='#["===== After HTTP request in " ++ flow.name ++ " flow ====="]'/>
+	</sub-flow>
+</mule>

@@ -1,0 +1,19 @@
+api:
+  version: "v1"
+  id: "19272701"
+  
+http:
+  listener:
+    host: "0.0.0.0"
+    basepath: "/${secure::api.version}/*"
+    private_port: "8081"
+    read_timeout: "30000"
+  
+sfdc:
+  username: "test"
+  password: "test"
+  securityToken: "test"
+    
+until_successful: 
+  max_retries: "3"
+  millis_between_retries: "300"

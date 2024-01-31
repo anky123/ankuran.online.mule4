@@ -1,0 +1,17 @@
+{
+	"configs": [
+		"accounts-sfdc-sapi-impl.xml",
+		"exception-handling.xml",
+		"global.xml",
+		"interface.xml"
+	],
+	"secureProperties": [
+		"anypoint.platform.client_id",
+		"anypoint.platform.client_secret",
+		"secure.properties.key"
+	],
+	"redeploymentEnabled": true,
+	"name": "accounts-sfdc-sapi",
+	"minMuleVersion": "4.4.0",
+	"requiredProduct": "MULE_EE"
+}

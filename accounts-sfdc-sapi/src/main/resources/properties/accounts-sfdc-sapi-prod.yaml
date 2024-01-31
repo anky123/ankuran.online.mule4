@@ -1,0 +1,19 @@
+api:
+  version: "v1"
+  id: "19272701"
+  
+http:
+  listener:
+    host: "0.0.0.0"
+    basepath: "/${secure::api.version}/*"
+    private_port: "8081"
+    read_timeout: "30000"
+  
+sfdc:
+  username: "![0JcPO0DNfjGCXO3iLP9+r7ysNo25N88Zwf28h6vnFnc=]"
+  password: "![Z2NlcFiXnKvbi6BQBz3xCA==]"
+  securityToken: "![W6bHBcc+cEafcVQEM8srZ6f+d76RyMp7Q0QwrskvIhM=]"
+    
+until_successful: 
+  max_retries: "3"
+  millis_between_retries: "300"
