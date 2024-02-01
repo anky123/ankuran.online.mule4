@@ -1,0 +1,36 @@
+api:
+  version: "v1"
+  id: "19273187"
+  
+http:
+  listener:
+    host: "0.0.0.0"
+    basepath: "/${secure::api.version}/*"
+    private_port: "8081"
+    read_timeout: "30000"
+  requester:
+    first_sys_api:
+      host: "first-country-lookup-sapi-av5zmx.5sc6y6-1.usa-e2.cloudhub.io"
+      basepath: "/v1"
+      path: "/countries"
+      port: "443"
+      header:
+        client_id: "![]"
+        client_secret: "![]"
+    
+    sfdc_sys_api:
+      host: "accounts-sfdc-sapi-av5zmx.5sc6y6-1.usa-e2.cloudhub.io"
+      basepath: "/v1/accounts"
+      port: "443"
+      
+    header:
+      client_id: "![XdNIO04m/T+X3BJVd4du8ABLvNIT8WD7M8JNIeySU5RDQfDXqB0bbkJ5WQ9i+xtn]" #f74ffd2d7c384248a446655e666c511b
+      client_secret: "![Ks7wVLntA7RQf3y2zrc1MRsM1behogwWnS7o3P2BjrTZlpj3stQAzxXtwwTJ6FZL]" #97cC0621CFFa4027998D2B97f5263E69
+    
+    response_timeout: "30000"
+    reconnection_frequency: "3000"
+    connection_idle_timeout: "900000"
+    
+    until_successful: 
+      max_retries: "3"
+      millis_between_retries: "300"

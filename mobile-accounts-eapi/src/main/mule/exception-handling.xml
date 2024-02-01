@@ -6,19 +6,27 @@
 	xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
 	<error-handler name="globalErrorHandler" doc:id="398ed41a-72c9-446c-ad52-f2179eaba0a0" >
-		 <on-error-propagate type="APIKIT:BAD_REQUEST">
-                <ee:transform doc:id="b79da672-e339-4799-b99a-4e5a9526e695">
+		 <ee:transform doc:name="Transform Message">
                     <ee:message>
                         <ee:set-payload><![CDATA[%dw 2.0
+import modules::employee::checkType
+var commonValidationDef = readUrl("classpath://def/apikit-validation-def.json", "application/json")
 output application/json
 ---
-{message: error.description}]]></ee:set-payload>
+{
+	"errorType": checkType::checkTypeCode(error.description),
+	"errors": [
+		{
+			"code": (flatten((commonValidationDef filter ((item, index) -> item.checkType contains checkType::checkTypeCode(error.description))).code))[0],
+			"message": error.description
+		}
+	]
+}]]></ee:set-payload>
                     </ee:message>
                     <ee:variables>
-                        <ee:set-variable variableName="httpStatus"><![CDATA[400]]></ee:set-variable>
+                        <ee:set-variable variableName="httpStatus">400</ee:set-variable>
                     </ee:variables>
                 </ee:transform>
-            </on-error-propagate>
             <on-error-propagate type="APIKIT:NOT_FOUND">
                 <ee:transform>
                     <ee:message>

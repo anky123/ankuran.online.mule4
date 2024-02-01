@@ -1,9 +1,9 @@
 {
 	"configs": [
 		"exception-handling.xml",
+		"first-country-lookup-sapi-impl.xml",
 		"global.xml",
-		"interface.xml",
-		"mobile-accounts-eapi-impl.xml"
+		"interface.xml"
 	],
 	"secureProperties": [
 		"anypoint.platform.client_id",

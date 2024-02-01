@@ -2,6 +2,6 @@
 output application/json
 ---
 {
-  code: "200",
-  message: "Success"
+  code: 200,
+  message: 'Health is OK, currentTime :: ' ++ now()
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<sub-flow name="common-201-requester-flow" doc:id="4f2b529c-3686-4b6d-9d68-ccc6da1586ea" >
+		<until-successful maxRetries="${secure::http.requester.until_successful.max_retries}" millisBetweenRetries="${secure::http.requester.until_successful.millis_between_retries}" doc:name="Until Successful" doc:id="08ca567d-783a-4df6-8973-d0be99e48aa8" >
+			<http:request method="#[vars.requestParameter.method]" doc:name="Request to process api" doc:id="52384f97-346f-4ed7-9416-41838f5cde53" config-ref="ACCOUNTS_PAPI_HTTP_Request_configuration" path="#[vars.requestParameter.path]" responseTimeout="${secure::http.requester.response_timeout}">
+				<reconnect frequency="${secure::http.requester.reconnection_frequency}"/>
+				<http:headers ><![CDATA[#[output application/java
+---
+{
+	"transaction-id" : correlationId,
+	"client_secret" : Mule::p('secure::http.requester.header.client_secret'),
+	"client_id" : Mule::p('secure::http.requester.header.client_id')
+}]]]></http:headers>
+				<http:response-validator >
+					<http:success-status-code-validator values="201" />
+				</http:response-validator>
+			</http:request>
+		</until-successful>
+	</sub-flow>
+	<sub-flow name="common-200-requester-flow" doc:id="4f2b529c-3686-4b6d-9d68-ccc6da1586ea" >
+		<until-successful maxRetries="${secure::http.requester.until_successful.max_retries}" millisBetweenRetries="${secure::http.requester.until_successful.millis_between_retries}" doc:name="Until Successful" doc:id="08ca567d-783a-4df6-8973-d0be99e48aa8" >
+			<http:request method="#[vars.requestParameter.method]" doc:name="Request to system api" doc:id="52384f97-346f-4ed7-9416-41838f5cde53" config-ref="ACCOUNTS_SFDC_SAPI_HTTP_Request_configuration" path="#[vars.requestParameter.path]" responseTimeout="${secure::http.requester.response_timeout}">
+				<reconnect frequency="${secure::http.requester.reconnection_frequency}"/>
+				<http:headers ><![CDATA[#[output application/java
+---
+{
+	"transaction-id" : correlationId,
+	"client_secret" : Mule::p('secure::http.requester.header.client_secret'),
+	"client_id" : Mule::p('secure::http.requester.header.client_id')
+}]]]></http:headers>
+				<http:response-validator >
+					<http:success-status-code-validator values="200" />
+				</http:response-validator>
+			</http:request>
+		</until-successful>
+	</sub-flow>
+</mule>

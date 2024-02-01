@@ -1,5 +1,6 @@
 {
 	"configs": [
+		"common-requester.xml",
 		"exception-handling.xml",
 		"global.xml",
 		"interface.xml",

@@ -1,6 +1,6 @@
 api:
   version: "v1"
-  id: "19272627"
+  id: "19273110"
   
 http:
   listener:
@@ -9,16 +9,20 @@ http:
     private_port: "8081"
     read_timeout: "30000"
   requester:
-    sfdc_sys_api:
-      host: "test"
-      basepath: "/test"
+    first_api:
+      host: "api.first.org"
+      basepath: "/data/v1"
+      path: "/countries"
       port: "443"
       response_timeout: "30000"
       reconnection_frequency: "3000"
       connection_idle_timeout: "900000"
-      header:
-        client_id: "test"
-        client_secret: "test"
       until_successful: 
         max_retries: "3"
         millis_between_retries: "300"
+        
+country_cache:
+  object_store:
+    maxEntries: "100" 
+    entryTtl: "5"
+    expirationInterval: "20"

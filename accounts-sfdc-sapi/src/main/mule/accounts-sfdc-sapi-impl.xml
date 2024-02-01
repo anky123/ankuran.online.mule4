@@ -15,6 +15,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 		<until-successful maxRetries="${secure::until_successful.max_retries}" millisBetweenRetries="${secure::until_successful.millis_between_retries}" doc:name="Until Successful" doc:id="08ca567d-783a-4df6-8973-d0be99e48aa8" >
 			<salesforce:create doc:name="Create Account" doc:id="37ed697b-edfb-46cc-bf85-b605f9f2aaed" config-ref="Salesforce_Config" type="Account" target="responseData" targetValue="#[payload]"/>
 		</until-successful>
+		<logger level="DEBUG" doc:name="DEBUG : create account response" doc:id="db6d4530-7bea-4386-aed9-dd69022fe115" message='#[payload]'/>
 		<ee:transform doc:name="Prepare response payload" doc:id="72b9f60a-8a74-4eb9-9b8e-81ae265c5a0b" >
 			<ee:message >
 				<ee:set-payload resource="dwl/createAccountResponse.dwl"/>
@@ -33,6 +34,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 		<until-successful maxRetries="${secure::until_successful.max_retries}" millisBetweenRetries="${secure::until_successful.millis_between_retries}" doc:name="Until Successful" doc:id="08ca567d-783a-4df6-8973-d0be99e48aa8" >
 			<salesforce:update doc:name="Update Account" doc:id="37ed697b-edfb-46cc-bf85-b605f9f2aaed" config-ref="Salesforce_Config" type="Account" target="responseData" targetValue="#[payload]"/>
 		</until-successful>
+		<logger level="DEBUG" doc:name="DEBUG : update account response" doc:id="db6d4530-7bea-4386-aed9-dd69022fe115" message='#[payload]'/>
 		<ee:transform doc:name="Prepare response payload" doc:id="72b9f60a-8a74-4eb9-9b8e-81ae265c5a0b" >
 			<ee:message >
 				<ee:set-payload resource="dwl/updateAccountResponse.dwl"/>
@@ -55,6 +57,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 }]]]></salesforce:retrieve-request>
 			</salesforce:retrieve>
 		</until-successful>
+		<logger level="DEBUG" doc:name="DEBUG : get account response" doc:id="db6d4530-7bea-4386-aed9-dd69022fe115" message='#[payload]'/>
 		<ee:transform doc:name="Prepare response payload" doc:id="72b9f60a-8a74-4eb9-9b8e-81ae265c5a0b" >
 			<ee:message >
 				<ee:set-payload resource="dwl/getAccountResponse.dwl"/>
@@ -72,6 +75,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 [vars.accountId]]]]></salesforce:ids>
 			</salesforce:delete>
 		</until-successful>
+		<logger level="DEBUG" doc:name="DEBUG : delete account response" doc:id="db6d4530-7bea-4386-aed9-dd69022fe115" message='#[payload]'/>
 		<ee:transform doc:name="Prepare response payload" doc:id="72b9f60a-8a74-4eb9-9b8e-81ae265c5a0b" >
 			<ee:message >
 				<ee:set-payload resource="dwl/deleteAccountResponse.dwl"/>
