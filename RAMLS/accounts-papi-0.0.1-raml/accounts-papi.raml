@@ -1,0 +1,23 @@
+#%RAML 1.0
+title: Salesforce Accounts Process API
+description: API to handle the salesforce account integration
+version: 1.0
+
+traits:
+  header-client-credentials-required: !include traits/header-client-credentials-required.raml
+
+types:
+  address: !include /account/dataTypes/reusable/address.raml
+  account: !include /account/dataTypes/reusable/account.raml
+  account-request: !include /account/dataTypes/account-request.raml
+  account-response: !include /account/dataTypes/account-response.raml
+
+resourceTypes:
+ account: !include /account/resourceType.raml
+
+/accounts:
+  type: account
+  post:
+  /{accountId}:
+    type: account
+    put:

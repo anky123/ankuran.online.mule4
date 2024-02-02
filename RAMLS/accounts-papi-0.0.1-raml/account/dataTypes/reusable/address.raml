@@ -1,0 +1,33 @@
+#%RAML 1.0 DataType
+
+type: object
+additionalProperties: false
+properties:
+  street:
+    type: string
+    required: false
+    minLength: 5
+    maxLength: 25
+    description: Street Name
+  city:
+    type: string
+    required: false
+    minLength: 2
+    maxLength: 15
+    description: City Name
+  state:
+    type: string
+    required: false
+    minLength: 5
+    maxLength: 20
+    description: State of Residence or province
+  postalCode:
+    type: string
+    required: false
+    minLength: 6
+    description: Postal code or zip
+  countryCode:
+    type: string
+    required: true
+    minLength: 2
+    description: Country Code

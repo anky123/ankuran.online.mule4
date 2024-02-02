@@ -1,0 +1,66 @@
+#%RAML 1.0 ResourceType
+post?:
+  is:
+    - header-client-credentials-required
+    - header-rate-limit-required
+    - error-400
+    - error-404
+    - error-500
+  description: Create an account in Salesforce
+  body:
+    application/json:
+      type: account-request
+      example: !include /account/examples/account-request-example.raml
+  responses:
+    201:
+      body:
+        application/json:
+          type: account-response
+          example: !include /account/examples/create-account-response-example.raml
+
+put?:
+  is:
+    - header-client-credentials-required
+    - header-rate-limit-required
+    - error-400
+    - error-404
+    - error-500
+  description: Create an account in Salesforce
+  body:
+    application/json:
+      type: account-request
+      example: !include /account/examples/account-request-example.raml
+  responses:
+    201:
+      body:
+        application/json:
+          type: account-response
+          example: !include /account/examples/update-account-response-example.raml
+
+get?:
+  is:
+    - header-client-credentials-required
+    - header-rate-limit-required
+    - error-400
+    - error-404
+    - error-500
+  description: Retrieve an account object from Salesforce
+  responses:
+    200:
+      body:
+        application/json:
+          example: !include /account/examples/get-account-response-example.raml
+
+delete?:
+  is:
+    - header-client-credentials-required
+    - header-rate-limit-required
+    - error-400
+    - error-404
+    - error-500
+  description: Deletes an account object from Salesforce
+  responses:
+    200:
+      body:
+        application/json:
+          example: !include /account/examples/delete-account-response-example.raml

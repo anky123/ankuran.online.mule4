@@ -1,0 +1,18 @@
+#%RAML 1.0 Trait
+usage: Apply rate limiting header to indicate consumer about rate limiting policy
+
+responses:
+  201:
+    headers:
+      X-Ratelimit-Remaining:
+        type: number
+        description: The amount of available quota
+        example: 5
+      X-Ratelimit-Limit:
+        type: number
+        description: The maximum available requests per window
+        example: 10
+      X-Ratelimit-Reset:
+        type: number
+        description: The remaining time, in milliseconds, until a new window starts
+        example: 3000

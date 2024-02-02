@@ -1,0 +1,37 @@
+#%RAML 1.0 DataType
+
+type: object
+additionalProperties: false
+properties:
+  name: 
+    type: string
+    required: true
+    pattern: ^[a-zA-Z0-9 ]*$
+    description: Account Name
+  email:
+    type: string
+    required: true
+    pattern: ^.+@.+\..+$
+    description: User Email ID
+  number:
+    type: string
+    required: false
+    description: Account Number
+  phone:
+    type: string
+    required: false
+    description: Account's phone number
+  fax:
+    type: string
+    required: false
+    description: Account's Fax number
+
+  billingAddress:
+    type: address
+    required: false
+    description: Billing Account address
+
+  shippingAddress:
+    type: address
+    required: false
+    description: Shipping Account address

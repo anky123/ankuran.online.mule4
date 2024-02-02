@@ -1,0 +1,40 @@
+#%RAML 1.0
+title: Mobile Accounts Experience API
+mediaType: 
+  - application/json
+description: API to handle the salesforce account integration along with first org country lookup
+version: 1.0
+protocols: [ HTTP, HTTPS ]
+baseUri: api/{version}
+
+uses:
+  commonLib: /exchange_modules/3a821d74-ead4-48a9-87e6-5bb67f180d55/common-lib/1.0.0/libraries/health.raml
+
+traits:
+  header-client-credentials-required: !include /exchange_modules/3a821d74-ead4-48a9-87e6-5bb67f180d55/common-lib/1.0.0/traits/header-client-credentials-required.raml
+  header-rate-limit-required: !include /exchange_modules/3a821d74-ead4-48a9-87e6-5bb67f180d55/common-lib/1.0.0/traits/header-client-credentials-required.raml
+  error-400: !include /exchange_modules/3a821d74-ead4-48a9-87e6-5bb67f180d55/common-lib/1.0.0/traits/errors/json/400.raml
+  error-404: !include /exchange_modules/3a821d74-ead4-48a9-87e6-5bb67f180d55/common-lib/1.0.0/traits/errors/json/404.raml
+  error-500: !include /exchange_modules/3a821d74-ead4-48a9-87e6-5bb67f180d55/common-lib/1.0.0/traits/errors/json/500.raml
+
+types:
+  address: !include /account/dataTypes/reusable/address.raml
+  account: !include /account/dataTypes/reusable/account.raml
+  account-request: !include /account/dataTypes/account-request.raml
+  account-response: !include /account/dataTypes/account-response.raml
+
+resourceTypes:
+ account: !include /account/resourceType.raml
+
+/health:
+  type:
+    commonLib.health
+
+/accounts:
+  type: account
+  post:
+  /{accountId}:
+    type: account
+    get:
+    put:
+    delete:
