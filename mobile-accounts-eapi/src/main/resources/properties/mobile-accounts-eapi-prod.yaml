@@ -26,7 +26,3 @@ http:
     response_timeout: "30000"
     reconnection_frequency: "3000"
     connection_idle_timeout: "900000"
-    
-    until_successful: 
-      max_retries: "3"
-      millis_between_retries: "300"

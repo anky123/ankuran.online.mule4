@@ -18,6 +18,8 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			</munit:parameterization>
 		</munit:parameterizations>
 	</munit:config>
+	<global-property doc:name="Global Property" doc:id="7cf2a15d-96d9-4210-8dd8-328b8e93a05e" name="mule.env" value="munit" />
+	<global-property doc:name="Global Property" doc:id="7cf2a15d-96d9-4210-8dd8-328b8e93a05e" name="secure.properties.key" value="test1234test1234" />
 	<munit:test name="【valid】create-accounts" doc:id="d8b8454a-5d00-4640-a978-10eca9dc0448" >
 		<munit:enable-flow-sources >
 			<munit:enable-flow-source value="mobile-accounts-eapi-main" />

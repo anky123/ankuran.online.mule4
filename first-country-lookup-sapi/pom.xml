@@ -53,13 +53,6 @@
 			<classifier>mule-plugin</classifier>
 		</dependency>
 		<dependency>
-			<groupId>3a821d74-ead4-48a9-87e6-5bb67f180d55</groupId>
-			<artifactId>first-country-lookup-sapi</artifactId>
-			<version>0.0.1</version>
-			<classifier>raml</classifier>
-			<type>zip</type>
-		</dependency>
-		<dependency>
 			<groupId>org.mule.modules</groupId>
 			<artifactId>mule-apikit-module</artifactId>
 			<version>1.9.1</version>
@@ -70,6 +63,13 @@
 			<artifactId>mule-objectstore-connector</artifactId>
 			<version>1.2.2</version>
 			<classifier>mule-plugin</classifier>
+		</dependency>
+		<dependency>
+			<groupId>3a821d74-ead4-48a9-87e6-5bb67f180d55</groupId>
+			<artifactId>first-country-lookup-sapi</artifactId>
+			<version>1.0.0</version>
+			<classifier>raml</classifier>
+			<type>zip</type>
 		</dependency>
 	</dependencies>
 

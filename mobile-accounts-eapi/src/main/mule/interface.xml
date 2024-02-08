@@ -12,7 +12,7 @@
         </http:listener>
         <logger level="INFO" doc:name="INFO : MetaData Logger" doc:id="71213e14-1643-4a2f-8b5b-aa28689df6bf" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10; "name": "Meta Data",&#10; "correlationId": attributes.headers."x-correlation-id" default correlationId,&#10; "timeStamp": now() as String,&#10; ("transaction-id": attributes.headers."transaction-id") if attributes.headers."transaction-id" != null,&#10; "flow": flow.name default "",&#10; "message": "Request received from Listener on " ++ attributes.method default "" ++ " method",&#10;}]'/>
 		<apikit:router config-ref="mobile-accounts-eapi-config" />
-        <error-handler ref="globalErrorHandler" />
+        <!-- <error-handler ref="globalErrorHandler" /> -->
     </flow>
    	<flow name="get:\health:mobile-accounts-eapi-config">
     	<logger level="INFO" doc:name="INFO : Flow Start Logger" doc:id="25df453e-3299-4254-9775-0bcf97edf977" message="#[&quot;===== Start of &quot; ++ flow.name ++ &quot; flow =====&quot;]"/>

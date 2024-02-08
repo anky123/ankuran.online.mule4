@@ -15,15 +15,15 @@
         <error-handler ref="globalErrorHandler" />
     </flow>
     
-    <!-- <flow name="get:\health-check:emea-product-eapi-config">
-        <logger level="INFO" doc:name="INFO : Flow Start Logger" doc:id="6bbba84a-8fd3-49f0-855d-e46b78513044" message="#[&quot;===== Start of &quot; ++ flow.name ++ &quot; flow =====&quot;]" />
+    <flow name="get:\health:accounts-sfdc-sapi-config">
+    	<logger level="INFO" doc:name="INFO : Flow Start Logger" doc:id="25df453e-3299-4254-9775-0bcf97edf977" message="#[&quot;===== Start of &quot; ++ flow.name ++ &quot; flow =====&quot;]"/>
         <ee:transform doc:name="Prepare Response">
             <ee:message>
                 <ee:set-payload resource="dwl/health-check.dwl" />
             </ee:message>
         </ee:transform>
-        <logger level="INFO" doc:name="INFO : Flow End Logger" doc:id="4b94b57b-e282-4973-b0d7-9b5398a24869" message="#[&quot;===== End of &quot; ++ flow.name ++ &quot; flow =====&quot;]" />
-    </flow> -->
+    	<logger level="INFO" doc:name="INFO : Flow End Logger" doc:id="7ca5451d-3ce0-4c52-a358-92cded29dfd8" message="#[&quot;===== End of &quot; ++ flow.name ++ &quot; flow =====&quot;]" />
+    </flow>
     <flow name="post:\accounts:application\json:accounts-sfdc-sapi-config">
         <logger level="INFO" doc:name="INFO : Flow Start Logger" doc:id="6b70cf63-c681-489b-80c1-23dc98f5d9df" message="#[&quot;===== Start of &quot; ++ flow.name ++ &quot; flow =====&quot;]" />
         <flow-ref name="create-account" doc:name="create-account"/>

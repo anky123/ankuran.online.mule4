@@ -6,14 +6,12 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
 	<sub-flow name="initiate-get-countries" doc:id="eee0997c-7427-4292-8cdc-ea7fc5882b10" >
 		<logger level="INFO" doc:name="INFO : Flow Start Logger" doc:id="04e1f991-3f9a-41e1-b123-1c9ac0adbde7" message='#["===== Before HTTP request in " ++ flow.name ++ " flow ====="]'/>
-		<until-successful maxRetries="${secure::http.requester.first_api.until_successful.max_retries}" millisBetweenRetries="${secure::http.requester.first_api.until_successful.millis_between_retries}" doc:name="Until Successful" doc:id="08ca567d-783a-4df6-8973-d0be99e48aa8" >
-			<http:request method="GET" doc:name="Request to system api" doc:id="52384f97-346f-4ed7-9416-41838f5cde53" config-ref="FIRST_SAPI_HTTP_Request_configuration" path="${secure::http.requester.first_api.path}" responseTimeout="${secure::http.requester.first_api.response_timeout}">
-				<reconnect frequency="${secure::http.requester.first_api.reconnection_frequency}"/>
-				<http:response-validator >
-					<http:success-status-code-validator values="200" />
-				</http:response-validator>
-			</http:request>
-		</until-successful>
+		<http:request method="GET" doc:name="Request to system api" doc:id="52384f97-346f-4ed7-9416-41838f5cde53" config-ref="FIRST_SAPI_HTTP_Request_configuration" path="${secure::http.requester.first_api.path}" responseTimeout="${secure::http.requester.first_api.response_timeout}">
+			<reconnect frequency="${secure::http.requester.first_api.reconnection_frequency}"/>
+			<http:response-validator >
+				<http:success-status-code-validator values="200" />
+			</http:response-validator>
+		</http:request>
 		<logger level="DEBUG" doc:name="DEBUG : Countries Response" doc:id="db6d4530-7bea-4386-aed9-dd69022fe115" message='#[payload]'/>
 		<ee:transform doc:name="Prepare response header" doc:id="72b9f60a-8a74-4eb9-9b8e-81ae265c5a0b" >
 			<ee:variables >

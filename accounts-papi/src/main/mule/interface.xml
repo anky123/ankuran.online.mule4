@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
-   	<flow name="accounts-papi-main">
+    <flow name="accounts-papi-main">
         <http:listener config-ref="accounts-papi-httpListenerConfig" path="${secure::http.listener.basepath}">
             <http:response statusCode="#[vars.httpStatus default 200]">
                 <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
@@ -10,60 +10,59 @@
                 <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
             </http:error-response>
         </http:listener>
-        <logger level="INFO" doc:name="INFO : MetaData Logger" doc:id="71213e14-1643-4a2f-8b5b-aa28689df6bf" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10; "name": "Meta Data",&#10; "correlationId": attributes.headers."x-correlation-id" default correlationId,&#10; "timeStamp": now() as String,&#10; ("transaction-id": attributes.headers."transaction-id") if attributes.headers."transaction-id" != null,&#10; "flow": flow.name default "",&#10; "message": "Request received from Listener on " ++ attributes.method default "" ++ " method",&#10;}]'/>
-		<apikit:router config-ref="accounts-papi-config" />
+        <logger level="INFO" doc:name="INFO : MetaData Logger" doc:id="71213e14-1643-4a2f-8b5b-aa28689df6bf" message="#[%dw 2.0&#xA;output application/json&#xA;---&#xA;{&#xA; &quot;name&quot;: &quot;Meta Data&quot;,&#xA; &quot;correlationId&quot;: attributes.headers.&quot;x-correlation-id&quot; default correlationId,&#xA; &quot;timeStamp&quot;: now() as String,&#xA; (&quot;transaction-id&quot;: attributes.headers.&quot;transaction-id&quot;) if attributes.headers.&quot;transaction-id&quot; != null,&#xA; &quot;flow&quot;: flow.name default &quot;&quot;,&#xA; &quot;message&quot;: &quot;Request received from Listener on &quot; ++ attributes.method default &quot;&quot; ++ &quot; method&quot;,&#xA;}]" />
+        <apikit:router config-ref="accounts-papi-config" />
         <error-handler ref="globalErrorHandler" />
     </flow>
-    
-    <!-- <flow name="get:\health-check:emea-product-eapi-config">
-        <logger level="INFO" doc:name="INFO : Flow Start Logger" doc:id="6bbba84a-8fd3-49f0-855d-e46b78513044" message="#[&quot;===== Start of &quot; ++ flow.name ++ &quot; flow =====&quot;]" />
+    <flow name="get:\health:accounts-papi-config">
+    	<logger level="INFO" doc:name="INFO : Flow Start Logger" doc:id="25df453e-3299-4254-9775-0bcf97edf977" message="#[&quot;===== Start of &quot; ++ flow.name ++ &quot; flow =====&quot;]"/>
         <ee:transform doc:name="Prepare Response">
             <ee:message>
                 <ee:set-payload resource="dwl/health-check.dwl" />
             </ee:message>
         </ee:transform>
-        <logger level="INFO" doc:name="INFO : Flow End Logger" doc:id="4b94b57b-e282-4973-b0d7-9b5398a24869" message="#[&quot;===== End of &quot; ++ flow.name ++ &quot; flow =====&quot;]" />
-    </flow> -->
+    	<logger level="INFO" doc:name="INFO : Flow End Logger" doc:id="7ca5451d-3ce0-4c52-a358-92cded29dfd8" message="#[&quot;===== End of &quot; ++ flow.name ++ &quot; flow =====&quot;]" />
+    </flow>
     <flow name="post:\accounts:application\json:accounts-papi-config">
         <logger level="INFO" doc:name="INFO : Flow Start Logger" doc:id="6b70cf63-c681-489b-80c1-23dc98f5d9df" message="#[&quot;===== Start of &quot; ++ flow.name ++ &quot; flow =====&quot;]" />
-        <ee:transform doc:name="capture request info" doc:id="ea5a1ca4-6d61-4f24-822c-f7e4e58c0f5f" >
-			<ee:variables >
-				<ee:set-variable variableName="expAPIData" ><![CDATA[%dw 2.0
+        <ee:transform doc:name="capture request info" doc:id="ea5a1ca4-6d61-4f24-822c-f7e4e58c0f5f">
+            <ee:variables>
+                <ee:set-variable variableName="expAPIData"><![CDATA[%dw 2.0
 output application/json
 ---
 payload]]></ee:set-variable>
-			</ee:variables>
-		</ee:transform>
-		<flow-ref name="country-lookup" doc:name="country-lookup"/>
-        <flow-ref name="initiate-create-account" doc:name="initiate-create-account"/>
-        <ee:transform doc:name="Prepare response code" doc:id="72b9f60a-8a74-4eb9-9b8e-81ae265c5a0b" >
-			<ee:variables >
-				<ee:set-variable variableName="httpStatus" ><![CDATA[201]]></ee:set-variable>
-			</ee:variables>
-		</ee:transform>
+            </ee:variables>
+        </ee:transform>
+        <flow-ref name="country-lookup" doc:name="country-lookup" target="countryLookup" targetValue="#[payload]"/>
+        <flow-ref name="initiate-create-account" doc:name="initiate-create-account" />
+        <ee:transform doc:name="Prepare response code" doc:id="72b9f60a-8a74-4eb9-9b8e-81ae265c5a0b">
+            <ee:variables>
+                <ee:set-variable variableName="httpStatus"><![CDATA[201]]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
         <logger level="INFO" doc:name="INFO : Flow End Logger" doc:id="4b94b57b-e282-4973-b0d7-9b5398a24869" message="#[&quot;===== End of &quot; ++ flow.name ++ &quot; flow =====&quot;]" />
     </flow>
     <flow name="put:\accounts\(accountId):application\json:accounts-papi-config">
         <logger level="INFO" doc:name="INFO : Flow Start Logger" doc:id="6b70cf63-c681-489b-80c1-23dc98f5d9df" message="#[&quot;===== Start of &quot; ++ flow.name ++ &quot; flow =====&quot;]" />
-        <ee:transform doc:name="capture request info" doc:id="ea5a1ca4-6d61-4f24-822c-f7e4e58c0f5f" >
-			<ee:variables >
-				<ee:set-variable variableName="expAPIData" ><![CDATA[%dw 2.0
+        <ee:transform doc:name="capture request info" doc:id="ea5a1ca4-6d61-4f24-822c-f7e4e58c0f5f">
+            <ee:variables>
+                <ee:set-variable variableName="expAPIData"><![CDATA[%dw 2.0
 output application/json
 ---
 payload]]></ee:set-variable>
-				<ee:set-variable variableName="accountId" ><![CDATA[%dw 2.0
+                <ee:set-variable variableName="accountId"><![CDATA[%dw 2.0
 output application/java
 ---
 attributes.uriParams.'accountId']]></ee:set-variable>
-			</ee:variables>
-		</ee:transform>
-        <flow-ref name="country-lookup" doc:name="country-lookup"/>
-        <flow-ref name="initiate-create-account" doc:name="initiate-create-account"/>
-        <ee:transform doc:name="Prepare response code" doc:id="72b9f60a-8a74-4eb9-9b8e-81ae265c5a0b" >
-			<ee:variables >
-				<ee:set-variable variableName="httpStatus" ><![CDATA[201]]></ee:set-variable>
-			</ee:variables>
-		</ee:transform>
+            </ee:variables>
+        </ee:transform>
+        <flow-ref name="country-lookup" doc:name="country-lookup" target="countryLookup" targetValue="#[payload]"/>
+        <flow-ref name="initiate-update-account" doc:name="initiate-update-account" />
+        <ee:transform doc:name="Prepare response code" doc:id="72b9f60a-8a74-4eb9-9b8e-81ae265c5a0b">
+            <ee:variables>
+                <ee:set-variable variableName="httpStatus"><![CDATA[201]]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
         <logger level="INFO" doc:name="INFO : Flow End Logger" doc:id="4b94b57b-e282-4973-b0d7-9b5398a24869" message="#[&quot;===== End of &quot; ++ flow.name ++ &quot; flow =====&quot;]" />
     </flow>
 </mule>

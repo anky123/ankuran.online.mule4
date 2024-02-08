@@ -1,6 +1,7 @@
 {
 	"configs": [
 		"accounts-papi-impl.xml",
+		"common-requester.xml",
 		"exception-handling.xml",
 		"global.xml",
 		"interface.xml"

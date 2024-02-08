@@ -1,44 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<mule xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
-	xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
-	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
-	xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
-	xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" 
-	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
-	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
-http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd 
-http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd 
-http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd
-http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd
-http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
-	<configuration doc:name="Configuration" doc:id="6218d92d-c9ee-4ce8-9b6b-f5ce18dadad5" defaultErrorHandler-ref="globalErrorHandler" />
- 	<http:listener-config name="accounts-papi-httpListenerConfig">
-        <http:listener-connection host="${secure::http.listener.host}" port="${secure::http.listener.private_port}" readTimeout="${secure::http.listener.read_timeout}"/>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce" xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation=" http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd  http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd  http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd  http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
+    <configuration doc:name="Configuration" doc:id="6218d92d-c9ee-4ce8-9b6b-f5ce18dadad5" defaultErrorHandler-ref="globalErrorHandler" />
+    <http:listener-config name="accounts-papi-httpListenerConfig">
+        <http:listener-connection host="${secure::http.listener.host}" port="${secure::http.listener.private_port}" readTimeout="${secure::http.listener.read_timeout}" />
     </http:listener-config>
-    <apikit:config name="accounts-papi-config" api="resource::3a821d74-ead4-48a9-87e6-5bb67f180d55:accounts-papi:0.0.1:raml:zip:accounts-papi.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
-   	<api-gateway:autodiscovery apiId="${secure::api.id}" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="3d84e1d1-c27e-47c7-b6f6-f260d4470012" flowRef="accounts-papi-main" />
-	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="0e15e8b5-e620-47f2-9c47-a97055cb29e5" file="properties\accounts-papi-${mule.env}.yaml" key="${secure.properties.key}" />
-	<http:request-config name="FIRST_SAPI_HTTP_Request_configuration" doc:name="FIRST SAPI HTTP Request configuration" doc:id="7c667ba6-db25-4f93-be6a-b39d06f107f1" basePath="${secure::http.requester.first_sys_api.basepath}"  responseTimeout="${secure::http.requester.response_timeout}">
-		<http:request-connection host="${secure::http.requester.first_sys_api.host}" port="${secure::http.requester.first_sys_api.port}" protocol="HTTPS" connectionIdleTimeout="${secure::http.requester.connection_idle_timeout}">
-			<reconnection>
-				<reconnect-forever frequency="${secure::http.requester.reconnection_frequency}"/>
-			</reconnection>
-			<tls:context >
-				<tls:trust-store insecure="true" />
-			</tls:context>
-		</http:request-connection>
-	</http:request-config>
-	<http:request-config name="ACCOUNTS_SFDC_SAPI_HTTP_Request_configuration" doc:name="SFDC SAPI HTTP Request configuration" doc:id="7c667ba6-db25-4f93-be6a-b39d06f107f1" basePath="${secure::http.requester.sfdc_sys_api.basepath}"  responseTimeout="${secure::http.requester.response_timeout}">
-		<http:request-connection host="${secure::http.requester.sfdc_sys_api.host}" port="${secure::http.requester.sfdc_sys_api.port}" protocol="HTTPS" connectionIdleTimeout="${secure::http.requester.connection_idle_timeout}">
-			<reconnection>
-				<reconnect-forever frequency="${secure::http.requester.reconnection_frequency}"/>
-			</reconnection>
-			<tls:context >
-				<tls:trust-store insecure="true" />
-			</tls:context>
-		</http:request-connection>
-	</http:request-config>
+    <apikit:config name="accounts-papi-config" api="resource::3a821d74-ead4-48a9-87e6-5bb67f180d55:accounts-papi:1.0.0:raml:zip:accounts-papi.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <api-gateway:autodiscovery apiId="${secure::api.id}" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="3d84e1d1-c27e-47c7-b6f6-f260d4470012" flowRef="accounts-papi-main" />
+    <secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="0e15e8b5-e620-47f2-9c47-a97055cb29e5" file="properties\accounts-papi-${mule.env}.yaml" key="${secure.properties.key}" />
+    <http:request-config name="FIRST_SAPI_HTTP_Request_configuration" doc:name="FIRST SAPI HTTP Request configuration" doc:id="7c667ba6-db25-4f93-be6a-b39d06f107f1" basePath="${secure::http.requester.first_sys_api.basepath}" responseTimeout="${secure::http.requester.response_timeout}">
+        <http:request-connection host="${secure::http.requester.first_sys_api.host}" port="${secure::http.requester.first_sys_api.port}" protocol="HTTPS" connectionIdleTimeout="${secure::http.requester.connection_idle_timeout}">
+            <reconnection>
+                <reconnect-forever frequency="${secure::http.requester.reconnection_frequency}" />
+            </reconnection>
+            <tls:context>
+                <tls:trust-store insecure="true" />
+            </tls:context>
+        </http:request-connection>
+    </http:request-config>
+    <http:request-config name="ACCOUNTS_SFDC_SAPI_HTTP_Request_configuration" doc:name="SFDC SAPI HTTP Request configuration" doc:id="7c667ba6-db25-4f93-be6a-b39d06f107f1" basePath="${secure::http.requester.sfdc_sys_api.basepath}" responseTimeout="${secure::http.requester.response_timeout}">
+        <http:request-connection host="${secure::http.requester.sfdc_sys_api.host}" port="${secure::http.requester.sfdc_sys_api.port}" protocol="HTTPS" connectionIdleTimeout="${secure::http.requester.connection_idle_timeout}">
+            <reconnection>
+                <reconnect-forever frequency="${secure::http.requester.reconnection_frequency}" />
+            </reconnection>
+            <tls:context>
+                <tls:trust-store insecure="true" />
+            </tls:context>
+        </http:request-connection>
+    </http:request-config>
 </mule>

@@ -3,5 +3,5 @@ output application/json
 ---
 {
   code: "200",
-  message: "Success"
+  message: 'Health is OK. Environment :: ' ++ Mule::p('mule.env') ++ ', CurrentTime :: ' ++ now()
 }

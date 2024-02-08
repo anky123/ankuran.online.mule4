@@ -13,7 +13,3 @@ sfdc:
   username: "test"
   password: "test"
   securityToken: "test"
-    
-until_successful: 
-  max_retries: "3"
-  millis_between_retries: "300"

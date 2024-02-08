@@ -2,7 +2,7 @@
 output application/json
 ---
 {
-  "id": vars.responseData.items[0].id,
+  "id": if (vars.responseData.items[0].id != null and vars.responseData.items[0].id != "") vars.responseData.items[0].id else vars.accountId,
   "status": if (vars.responseData.items[0].successful) 1 else 0,
-  "message": "Account deleted successfully"
+  "message": if(vars.responseData.items[0].successful) "Account deleted successfully" else "Account couldn't delete successfully"
 }

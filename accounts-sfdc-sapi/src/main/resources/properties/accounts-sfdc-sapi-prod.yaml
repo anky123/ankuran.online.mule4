@@ -13,7 +13,3 @@ sfdc:
   username: "![0JcPO0DNfjGCXO3iLP9+r7ysNo25N88Zwf28h6vnFnc=]"
   password: "![Z2NlcFiXnKvbi6BQBz3xCA==]"
   securityToken: "![W6bHBcc+cEafcVQEM8srZ6f+d76RyMp7Q0QwrskvIhM=]"
-    
-until_successful: 
-  max_retries: "3"
-  millis_between_retries: "300"

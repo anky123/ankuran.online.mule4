@@ -8,21 +8,18 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
 	<sub-flow name="country-lookup" doc:id="eee0997c-7427-4292-8cdc-ea7fc5882b10" >
 		<logger level="INFO" doc:name="INFO : Flow Start Logger" doc:id="04e1f991-3f9a-41e1-b123-1c9ac0adbde7" message='#["===== Before HTTP request in " ++ flow.name ++ " flow ====="]'/>
-		<until-successful maxRetries="${secure::http.requester.until_successful.max_retries}" millisBetweenRetries="${secure::http.requester.until_successful.millis_between_retries}" doc:name="Until Successful" doc:id="08ca567d-783a-4df6-8973-d0be99e48aa8" >
-			<http:request method="GET" doc:name="Request to country lookup system api" doc:id="52384f97-346f-4ed7-9416-41838f5cde53" config-ref="FIRST_SAPI_HTTP_Request_configuration" path="${secure::http.requester.first_sys_api.path}" responseTimeout="${secure::http.requester.response_timeout}" target="countryLookup" targetValue="#[payload]">
-				<reconnect frequency="${secure::http.requester.reconnection_frequency}"/>
-				<http:headers ><![CDATA[#[output application/java
+		<ee:transform doc:name="Prepare request parameter" doc:id="64b2a22a-702d-4824-93df-54d28b6a9eae" >
+			<ee:variables >
+				<ee:set-variable variableName="requestParameter" ><![CDATA[%dw 2.0
+output application/java
 ---
 {
-	"transaction-id" : correlationId,
-	"client_secret" : Mule::p('secure::http.requester.header.client_secret'),
-	"client_id" : Mule::p('secure::http.requester.header.client_id')
-}]]]></http:headers>
-				<http:response-validator >
-					<http:success-status-code-validator values="200" />
-				</http:response-validator>
-			</http:request>
-		</until-successful>
+	"method" : "GET",
+	"path" : "/countries"
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref name="common-200-requester-flow" doc:name="common-200-requester-flow"/>
 		<logger level="DEBUG" doc:name="DEBUG : Countries Response" doc:id="db6d4530-7bea-4386-aed9-dd69022fe115" message='#[payload]'/>
 		<ee:transform doc:name="Prepare response header" doc:id="72b9f60a-8a74-4eb9-9b8e-81ae265c5a0b" >
 			<ee:variables >
@@ -33,26 +30,18 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	</sub-flow>
 	<sub-flow name="initiate-create-account" doc:id="a2e406fe-32b1-4597-a6b0-1f294cb44b23" >
 		<logger level="DEBUG" doc:name="DEBUG : Flow Start Logger" doc:id="30c39831-908e-47e3-bc04-8ea64ae26e15" message='#["===== Before HTTP request in " ++ flow.name ++ " flow ====="]'/>
-		<ee:transform doc:name="Prepare reqest payload" doc:id="bc9ab37d-e915-445c-a6a3-551c5fbb576a" >
-			<ee:message >
-				<ee:set-payload resource="dwl/createAccountRequest.dwl"/>
-			</ee:message>
-		</ee:transform>
-		<until-successful maxRetries="${secure::http.requester.until_successful.max_retries}" millisBetweenRetries="${secure::http.requester.until_successful.millis_between_retries}" doc:name="Until Successful" doc:id="08ca567d-783a-4df6-8973-d0be99e48aa8" >
-			<http:request method="POST" doc:name="Request to system api" doc:id="52384f97-346f-4ed7-9416-41838f5cde53" config-ref="ACCOUNTS_SFDC_SAPI_HTTP_Request_configuration" path="#['']" responseTimeout="${secure::http.requester.response_timeout}">
-				<reconnect frequency="${secure::http.requester.reconnection_frequency}"/>
-				<http:headers ><![CDATA[#[output application/java
+		<ee:transform doc:name="Prepare request parameter" doc:id="64b2a22a-702d-4824-93df-54d28b6a9eae" >
+			<ee:variables >
+				<ee:set-variable variableName="requestParameter" ><![CDATA[%dw 2.0
+output application/java
 ---
 {
-	"transaction-id" : correlationId,
-	"client_secret" : Mule::p('secure::http.requester.header.client_secret'),
-	"client_id" : Mule::p('secure::http.requester.header.client_id')
-}]]]></http:headers>
-				<http:response-validator >
-					<http:success-status-code-validator values="201" />
-				</http:response-validator>
-			</http:request>
-		</until-successful>
+	"method" : "POST",
+	"path" : "/accounts"
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref name="common-201-requester-flow" doc:name="common-201-requester-flow"/>
 		<logger level="DEBUG" doc:name="DEBUG : create account response" doc:id="db6d4530-7bea-4386-aed9-dd69022fe115" message='#[payload]'/>
 		<logger level="DEBUG" doc:name="DEBUG : Flow End Logger" doc:id="ece82a56-9ad8-4ae6-8f5b-aa4db5246564" message='#["===== After HTTP request in " ++ flow.name ++ " flow ====="]'/>
 	</sub-flow>
@@ -63,21 +52,18 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 				<ee:set-payload resource="dwl/updateAccountRequest.dwl"/>
 			</ee:message>
 		</ee:transform>
-		<until-successful maxRetries="${secure::http.requester.until_successful.max_retries}" millisBetweenRetries="${secure::http.requester.until_successful.millis_between_retries}" doc:name="Until Successful" doc:id="08ca567d-783a-4df6-8973-d0be99e48aa8" >
-			<http:request method="PUT" doc:name="Request to system api" doc:id="52384f97-346f-4ed7-9416-41838f5cde53" config-ref="ACCOUNTS_SFDC_SAPI_HTTP_Request_configuration" path="#['/' ++ vars.accountId]" responseTimeout="${secure::http.requester.response_timeout}">
-				<reconnect frequency="${secure::http.requester.reconnection_frequency}"/>
-				<http:headers ><![CDATA[#[output application/java
+		<ee:transform doc:name="Prepare request parameter" doc:id="64b2a22a-702d-4824-93df-54d28b6a9eae" >
+			<ee:variables >
+				<ee:set-variable variableName="requestParameter" ><![CDATA[%dw 2.0
+output application/java
 ---
 {
-	"transaction-id" : correlationId,
-	"client_secret" : Mule::p('secure::http.requester.sfdc_sys_api.header.client_secret'),
-	"client_id" : Mule::p('secure::http.requester.sfdc_sys_api.header.client_id')
-}]]]></http:headers>
-				<http:response-validator >
-					<http:success-status-code-validator values="201" />
-				</http:response-validator>
-			</http:request>
-		</until-successful>
+	"method" : "PUT",
+	"path" : "/accounts/" ++ vars.accountId
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref name="common-201-requester-flow" doc:name="common-201-requester-flow"/>
 		<logger level="DEBUG" doc:name="DEBUG : update account response" doc:id="db6d4530-7bea-4386-aed9-dd69022fe115" message='#[payload]'/>
 		<logger level="DEBUG" doc:name="DEBUG : Flow End Logger" doc:id="ece82a56-9ad8-4ae6-8f5b-aa4db5246564" message='#["===== After HTTP request in " ++ flow.name ++ " flow ====="]'/>
 	</sub-flow>

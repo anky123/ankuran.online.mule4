@@ -18,7 +18,7 @@ http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mu
  	<http:listener-config name="accounts-sfdc-sapi-httpListenerConfig">
         <http:listener-connection host="${secure::http.listener.host}" port="${secure::http.listener.private_port}" readTimeout="${secure::http.listener.read_timeout}"/>
     </http:listener-config>
-    <apikit:config name="accounts-sfdc-sapi-config" api="resource::3a821d74-ead4-48a9-87e6-5bb67f180d55:accounts-sfdc-sapi:0.0.1:raml:zip:accounts-sfdc-sapi.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <apikit:config name="accounts-sfdc-sapi-config" api="resource::3a821d74-ead4-48a9-87e6-5bb67f180d55:accounts-sfdc-sapi:2.0.0:raml:zip:accounts-sfdc-sapi.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
    	<salesforce:sfdc-config name="Salesforce_Config" doc:name="Salesforce Config" doc:id="b12ef9ab-d1ad-408f-97c9-b8de856f11b6" >
 		<salesforce:basic-connection username="${secure::sfdc.username}" password="${secure::sfdc.password}" securityToken="${secure::sfdc.securityToken}" />
 	</salesforce:sfdc-config>
